@@ -176,7 +176,7 @@
         </div>
     </footer>
 
-    <!-- Advanced Syntax & Input Type Validation Script -->
+    <!-- Comprehensive Validation & Error Handler Script -->
     <script>
     // Phone Number Formatting Mask Handler
     const phoneInput = document.getElementById('clientPhone');
@@ -219,12 +219,27 @@
             isValid = false;
             customMsg = 'This field cannot be empty.';
         } else if (el.id === 'clientName') {
-            if (val.length < 2 || !/^[a-zA-Z\s'-]+$/.test(val)) {
+            // Comprehensive Name Syntax Validation
+            if (val.length < 2) {
                 isValid = false;
-                customMsg = 'Invalid syntax: Use alphabetical characters only.';
+                customMsg = 'Name must be at least 2 characters long.';
+            } else if (val.length > 60) {
+                isValid = false;
+                customMsg = 'Name is too long (maximum 60 characters).';
+            } else if (/\s{2,}/.test(val)) {
+                isValid = false;
+                customMsg = 'Invalid syntax: Avoid multiple consecutive spaces.';
+            } else {
+                // Allows letters (including international/accented characters), spaces, hyphens, and apostrophes
+                const nameRegex = /^[p{L}\s'-]+$/u;
+                // Fallback check standard ASCII letters/accents + hyphens + apostrophes + spaces
+                const safeNameRegex = /^[a-zA-ZÀ-ÿ\s'-]+$/;
+                if (!safeNameRegex.test(val)) {
+                    isValid = false;
+                    customMsg = 'Invalid syntax: Numbers and special symbols are not allowed.';
+                }
             }
         } else if (el.id === 'clientEmail') {
-            // Strict email input type syntax check using standard RFC regex
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(val)) {
                 isValid = false;
