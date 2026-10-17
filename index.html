@@ -28,7 +28,7 @@
             <div class="flex items-center gap-4">
                 <span>📍 Serving Newark & Northern New Jersey</span>
                 <span class="hidden sm:inline text-gray-600">|</span>
-                <span class="text-blue-400 font-mono">Personal Computer & Laptop Repair</span>
+                <span class="text-blue-400 font-mono">Personal Side Job & Mobile Repairs</span>
             </div>
             <div class="font-medium text-blue-400">
                 Direct Line / WhatsApp: <span class="text-white font-bold">862-436-7086</span>
@@ -61,7 +61,7 @@
                 <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span> Fast Turnaround for Personal Devices
             </div>
             <h2 class="text-4xl sm:text-5xl font-extrabold tracking-tight mb-6 leading-tight">
-                Professional <span class="text-blue-500">Computer & Laptop Repair</span> for Home Users
+                Professional <span class="text-blue-500">Computer & Laptop Repair</span> for Local Clients
             </h2>
             <p class="text-gray-400 text-lg mb-8 leading-relaxed">
                 Got a sluggish laptop, a computer that won't boot, a cracked screen, or a failing hard drive? We provide fast, reliable hardware repairs and upgrades for your personal computers right here in New Jersey.
@@ -175,4 +175,171 @@
     <footer class="border-t border-gray-900 bg-card/40 mt-20 py-10 text-center text-xs text-gray-500">
         <div class="max-w-6xl mx-auto px-6 space-y-3">
             <p class="font-semibold text-gray-400">ITechRU &bull; Newark, New Jersey</p>
-            <p>Direct Phone / WhatsApp: <a href="tel:86243670
+            <p>Direct Phone / WhatsApp: <a href="tel:8624367086" class="text-white hover:underline">862-436-7086</a> | Email: ronito741@gmail.com</p>
+            <p class="text-gray-600">&copy; 2026 ITechRU. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Strict Input Validation & Error Handler Script -->
+    <script>
+    // 1. Strict Name Input Keypress Block (Blocks numbers and symbols instantly)
+    const nameInput = document.getElementById('clientName');
+    nameInput.addEventListener('keypress', function (e) {
+        const char = String.fromCharCode(e.which);
+        if (!/^[a-zA-Z\s'-]+$/.test(char)) {
+            e.preventDefault();
+        }
+    });
+
+    // 2. Phone Number Formatting Mask Handler
+    const phoneInput = document.getElementById('clientPhone');
+    phoneInput.addEventListener('input', function (e) {
+        let inputVal = e.target.value.replace(/\D/g, '').substring(0, 10);
+        let formattedVal = '';
+
+        if (inputVal.length > 6) {
+            formattedVal = `(${inputVal.substring(0, 3)}) ${inputVal.substring(3, 6)}-${inputVal.substring(6)}`;
+        } else if (inputVal.length > 3) {
+            formattedVal = `(${inputVal.substring(0, 3)}) ${inputVal.substring(3)}`;
+        } else if (inputVal.length > 0) {
+            formattedVal = `(${inputVal}`;
+        }
+
+        e.target.value = formattedVal;
+        validateField(e.target);
+    });
+
+    // 3. Real-time syntax event listeners for all input fields
+    const fields = ['clientName', 'clientEmail', 'clientPhone', 'clientSpecs', 'clientMessage'];
+    fields.forEach(id => {
+        const el = document.getElementById(id);
+        el.addEventListener('blur', () => validateField(el));
+        el.addEventListener('input', () => {
+            if (el.classList.contains('border-red-500')) {
+                validateField(el);
+            }
+        });
+    });
+
+    function validateField(el) {
+        const container = document.getElementById(`error-${el.id}`);
+        const msgSpan = container.querySelector('.msg');
+        let isValid = true;
+        let customMsg = '';
+        const val = el.value.trim();
+
+        if (!val) {
+            isValid = false;
+            customMsg = 'This field cannot be empty.';
+        } else if (el.id === 'clientName') {
+            const nameRegex = /^[a-zA-Z\s'-]+$/;
+            if (val.length < 2) {
+                isValid = false;
+                customMsg = 'Name must be at least 2 characters long.';
+            } else if (!nameRegex.test(val)) {
+                isValid = false;
+                customMsg = 'Invalid syntax: Numbers and special symbols are not allowed.';
+            }
+        } else if (el.id === 'clientEmail') {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(val)) {
+                isValid = false;
+                customMsg = 'Invalid email syntax (e.g., name@domain.com).';
+            }
+        } else if (el.id === 'clientPhone') {
+            if (val.replace(/\D/g, '').length < 10) {
+                isValid = false;
+                customMsg = 'Invalid syntax: Enter a complete 10-digit number.';
+            }
+        } else if (el.id === 'clientSpecs') {
+            if (val.length < 3) {
+                isValid = false;
+                customMsg = 'Invalid syntax: Please specify your computer model.';
+            }
+        } else if (el.id === 'clientMessage') {
+            if (val.length < 10) {
+                isValid = false;
+                customMsg = `Invalid syntax: Description is too short (${val.length}/10 chars).`;
+            }
+        }
+
+        if (!isValid) {
+            el.classList.remove('border-gray-800', 'focus:border-indigo-500');
+            el.classList.add('border-red-500', 'focus:border-red-500', 'bg-red-950/10');
+            msgSpan.textContent = customMsg;
+            container.classList.remove('hidden');
+        } else {
+            el.classList.remove('border-red-500', 'focus:border-red-500', 'bg-red-950/10');
+            el.classList.add('border-gray-800', 'focus:border-indigo-500');
+            container.classList.add('hidden');
+        }
+        return isValid;
+    }
+
+    function showStatus(text, type) {
+        const statusEl = document.getElementById('formStatus');
+        statusEl.textContent = text;
+        statusEl.classList.remove('hidden', 'bg-emerald-950/40', 'border-emerald-800', 'text-emerald-400', 'bg-red-950/40', 'border-red-800', 'text-red-400', 'bg-indigo-950/40', 'border-indigo-800', 'text-indigo-300');
+        if (type === 'success') {
+            statusEl.classList.add('bg-emerald-950/40', 'border-emerald-800', 'text-emerald-400');
+        } else if (type === 'error') {
+            statusEl.classList.add('bg-red-950/40', 'border-red-800', 'text-red-400');
+        } else {
+            statusEl.classList.add('bg-indigo-950/40', 'border-indigo-800', 'text-indigo-300');
+        }
+    }
+
+    // 4. Form Submission Handler
+    document.getElementById('triageForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const form = e.target;
+        
+        let formIsValid = true;
+        fields.forEach(id => {
+            const el = document.getElementById(id);
+            if (!validateField(el)) {
+                formIsValid = false;
+            }
+        });
+
+        if (!formIsValid) {
+            showStatus('⚠️ Please resolve the highlighted errors before submitting.', 'error');
+            return;
+        }
+
+        const formData = new FormData(form);
+        const submitBtn = document.getElementById('submitBtn');
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting Request...';
+        showStatus('⏳ Sending your repair request to ITechRU...', 'info');
+
+        try {
+            const response = await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                body: formData
+            });
+
+            const json = await response.json();
+
+            if (response.ok && json.success) {
+                showStatus('✅ Repair request successfully submitted! We will contact you soon.', 'success');
+                form.reset();
+                fields.forEach(id => {
+                    const el = document.getElementById(id);
+                    el.classList.remove('border-red-500', 'bg-red-950/10');
+                    el.classList.add('border-gray-800');
+                });
+            } else {
+                throw new Error(json.message || 'Submission failed');
+            }
+        } catch (error) {
+            showStatus('❌ Submission error. Please try again or contact via WhatsApp (862-436-7086).', 'error');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = '💻 Submit Repair Request';
+        }
+    });
+    </script>
+</body>
+</html>
