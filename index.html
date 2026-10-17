@@ -115,13 +115,13 @@
                 <div class="grid sm:grid-cols-2 gap-5">
                     <div>
                         <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Your Full Name</label>
-                        <input type="text" id="clientName" name="name" required class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition" placeholder="John Doe">
-                        <p id="error-clientName" class="text-xs text-red-400 mt-1 hidden">Please enter your name.</p>
+                        <input type="text" id="clientName" name="name" required class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition" placeholder="John Doe" autocomplete="name">
+                        <p id="error-clientName" class="text-xs text-red-400 mt-1.5 hidden flex items-center gap-1">⚠️ <span class="msg">Invalid syntax: Please enter a valid name.</span></p>
                     </div>
                     <div>
                         <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Preferred Contact Number</label>
-                        <input type="tel" id="clientPhone" name="phone" required class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition" placeholder="(862) 555-0199">
-                        <p id="error-clientPhone" class="text-xs text-red-400 mt-1 hidden">Please enter a valid phone number.</p>
+                        <input type="tel" id="clientPhone" name="phone" required class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition" placeholder="(862) 555-0199" maxlength="14" autocomplete="tel">
+                        <p id="error-clientPhone" class="text-xs text-red-400 mt-1.5 hidden flex items-center gap-1">⚠️ <span class="msg">Invalid syntax: Enter a 10-digit phone number.</span></p>
                     </div>
                 </div>
 
@@ -138,14 +138,14 @@
                     <div>
                         <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">System Specs / Operating System</label>
                         <input type="text" id="clientSpecs" name="os_specs" required class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition" placeholder="Windows 11 / Custom Desktop / Ubuntu Server">
-                        <p id="error-clientSpecs" class="text-xs text-red-400 mt-1 hidden">Please specify your system specs.</p>
+                        <p id="error-clientSpecs" class="text-xs text-red-400 mt-1.5 hidden flex items-center gap-1">⚠️ <span class="msg">Invalid syntax: Please specify your system specs.</span></p>
                     </div>
                 </div>
 
                 <div>
                     <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Describe Issue / Error Details</label>
                     <textarea id="clientMessage" name="message" rows="4" required class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition" placeholder="Explain the hardware failure, network drop, or boot error..."></textarea>
-                    <p id="error-clientMessage" class="text-xs text-red-400 mt-1 hidden">Please provide issue details (at least 10 characters).</p>
+                    <p id="error-clientMessage" class="text-xs text-red-400 mt-1.5 hidden flex items-center gap-1">⚠️ <span class="msg">Invalid syntax: Description must be at least 10 characters long.</span></p>
                 </div>
 
                 <!-- Action Button -->
@@ -170,46 +170,80 @@
         </div>
     </footer>
 
-    <!-- Script Handling with Advanced Input Validation & Phone Masking -->
+    <!-- Advanced Syntax & Input Error Handler Script -->
     <script>
-    // Phone Number Auto-Formatting Mask
+    // Phone Number Formatting Mask Handler
     const phoneInput = document.getElementById('clientPhone');
     phoneInput.addEventListener('input', function (e) {
-        let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
-        e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+        let inputVal = e.target.value.replace(/\D/g, '').substring(0, 10);
+        let formattedVal = '';
+
+        if (inputVal.length > 6) {
+            formattedVal = `(${inputVal.substring(0, 3)}) ${inputVal.substring(3, 6)}-${inputVal.substring(6)}`;
+        } else if (inputVal.length > 3) {
+            formattedVal = `(${inputVal.substring(0, 3)}) ${inputVal.substring(3)}`;
+        } else if (inputVal.length > 0) {
+            formattedVal = `(${inputVal}`;
+        }
+
+        e.target.value = formattedVal;
         validateField(e.target);
     });
 
-    // Real-time blur validation handlers
+    // Real-time syntax event listeners
     const fields = ['clientName', 'clientPhone', 'clientSpecs', 'clientMessage'];
     fields.forEach(id => {
         const el = document.getElementById(id);
         el.addEventListener('blur', () => validateField(el));
         el.addEventListener('input', () => {
-            if(el.classList.contains('border-red-500')) validateField(el);
+            if (el.classList.contains('border-red-500')) {
+                validateField(el);
+            }
         });
     });
 
     function validateField(el) {
-        const errorEl = document.getElementById(`error-${el.id}`);
+        const container = document.getElementById(`error-${el.id}`);
+        const msgSpan = container.querySelector('.msg');
         let isValid = true;
+        let customMsg = '';
+        const val = el.value.trim();
 
-        if (!el.value.trim()) {
+        if (!val) {
             isValid = false;
-        } else if (el.id === 'clientPhone' && el.value.replace(/\D/g, '').length < 10) {
-            isValid = false;
-        } else if (el.id === 'clientMessage' && el.value.trim().length < 10) {
-            isValid = false;
+            customMsg = 'This field cannot be empty.';
+        } else if (el.id === 'clientName') {
+            // Check for valid name syntax (letters and spaces only, min 2 chars)
+            if (val.length < 2 || !/^[a-zA-Z\s'-]+$/.test(val)) {
+                isValid = false;
+                customMsg = 'Invalid syntax: Use alphabetical characters only.';
+            }
+        } else if (el.id === 'clientPhone') {
+            if (val.replace(/\D/g, '').length < 10) {
+                isValid = false;
+                customMsg = 'Invalid syntax: Please enter a complete 10-digit number.';
+            }
+        } else if (el.id === 'clientSpecs') {
+            if (val.length < 3) {
+                isValid = false;
+                customMsg = 'Invalid syntax: Please specify valid system/OS specs.';
+            }
+        } else if (el.id === 'clientMessage') {
+            if (val.length < 10) {
+                isValid = false;
+                customMsg = `Invalid syntax: Description is too short (${val.length}/10 chars).`;
+            }
         }
 
         if (!isValid) {
             el.classList.remove('border-gray-800', 'focus:border-indigo-500');
-            el.classList.add('border-red-500', 'focus:border-red-500');
-            if(errorEl) errorEl.classList.remove('hidden');
+            el.classList.add('border-red-500', 'focus:border-red-500', 'bg-red-950/10');
+            msgSpan.textContent = customMsg;
+            container.classList.remove('hidden');
         } else {
-            el.classList.remove('border-red-500', 'focus:border-red-500');
+            el.classList.remove('border-red-500', 'focus:border-red-500', 'bg-red-950/10');
             el.classList.add('border-gray-800', 'focus:border-indigo-500');
-            if(errorEl) errorEl.classList.add('hidden');
+            container.classList.add('hidden');
         }
         return isValid;
     }
@@ -231,7 +265,6 @@
         e.preventDefault();
         const form = e.target;
         
-        // Validate all fields before submission
         let formIsValid = true;
         fields.forEach(id => {
             const el = document.getElementById(id);
@@ -241,7 +274,7 @@
         });
 
         if (!formIsValid) {
-            showStatus('⚠️ Please fix the highlighted errors before submitting.', 'error');
+            showStatus('⚠️ Syntax Error: Please resolve highlighted validation errors before sending.', 'error');
             return;
         }
 
@@ -265,7 +298,7 @@
                 form.reset();
                 fields.forEach(id => {
                     const el = document.getElementById(id);
-                    el.classList.remove('border-red-500');
+                    el.classList.remove('border-red-500', 'bg-red-950/10');
                     el.classList.add('border-gray-800');
                 });
             } else {
