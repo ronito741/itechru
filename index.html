@@ -1,16 +1,3 @@
-#!/bin/bash
-# ==============================================================================
-# ITechRU Production Deployment Script (Separate Discord & WhatsApp Actions)
-# Target: /var/www/html/index.html
-# ==============================================================================
-
-set -e
-
-echo "[*] Creating web root directory if missing..."
-sudo mkdir -p /var/www/html
-
-echo "[*] Writing updated index.html with separate Discord and WhatsApp buttons..."
-sudo tee /var/www/html/index.html > /dev/null << 'EOF'
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
@@ -279,16 +266,3 @@ sudo tee /var/www/html/index.html > /dev/null << 'EOF'
     </script>
 </body>
 </html>
-EOF
-
-echo "[*] Setting correct file permissions..."
-sudo chown -R www-data:www-data /var/www/html
-sudo chmod -R 755 /var/www/html
-
-echo "[*] Restarting Apache web server..."
-sudo systemctl restart apache2
-
-echo "[*] Verifying Apache service status..."
-sudo systemctl status apache2 --no-pager
-
-echo "[*] Deployment complete! ITechRU updated with separated WhatsApp and Discord buttons at https://itechru.us"
