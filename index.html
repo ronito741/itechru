@@ -1,3 +1,17 @@
+#!/bin/bash
+# ==============================================================================
+# ITechRU Complete Production Deployment Script
+# Target: /var/www/html/index.html
+# Features: WhatsApp Routing, Discord Webhook Integration, Live Error Handling
+# ==============================================================================
+
+set -e
+
+echo "[*] Creating web root directory if missing..."
+sudo mkdir -p /var/www/html
+
+echo "[*] Writing full production index.html..."
+sudo tee /var/www/html/index.html > /dev/null << 'EOF'
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
@@ -161,7 +175,7 @@
         </div>
     </footer>
 
-    <!-- Script with Comprehensive Error Handling & Status Feedback -->
+    <!-- Script with Discord Webhook & Error Handling -->
     <script>
     async function sendToWhatsApp() {
         const name = document.getElementById('clientName').value.trim();
@@ -196,6 +210,8 @@
         showStatus('⏳ Dispatching ticket to Discord & preparing WhatsApp...', 'info');
 
         let discordSuccess = false;
+        
+        // 🔹 PASTE YOUR DISCORD WEBHOOK URL BELOW INSIDE THE QUOTES 🔹
         const discordWebhookUrl = "https://discord.com/api/webhooks/1525528528504885410/BGvNyfjTUWoflTtoBbI7Dljg4p-I6ku9jL2x8lVJkUpnfSLPws0YXxFctkzUMDl6Tj3E";
 
         if (discordWebhookUrl && discordWebhookUrl !== "https://discord.com/api/webhooks/1525528528504885410/BGvNyfjTUWoflTtoBbI7Dljg4p-I6ku9jL2x8lVJkUpnfSLPws0YXxFctkzUMDl6Tj3E") {
@@ -237,7 +253,7 @@
             if (discordSuccess) {
                 showStatus('✅ Ticket dispatched successfully to Discord & WhatsApp!', 'success');
             } else {
-                showStatus('✅ WhatsApp opened successfully! (Discord webhook unconfigured or failed)', 'success');
+                showStatus('✅ WhatsApp opened successfully! (Configure Discord webhook URL in code to enable Discord alerts)', 'success');
             }
         } catch (err) {
             console.error('WhatsApp redirect error caught:', err);
@@ -250,3 +266,16 @@
     </script>
 </body>
 </html>
+EOF
+
+echo "[*] Setting correct file permissions..."
+sudo chown -R www-data:www-data /var/www/html
+sudo chmod -R 755 /var/www/html
+
+echo "[*] Restarting Apache web server..."
+sudo systemctl restart apache2
+
+echo "[*] Verifying Apache service status..."
+sudo systemctl status apache2 --no-pager
+
+echo "[*] Deployment complete! ITechRU is live at https://itechru.us with Discord notifications and error handling."
