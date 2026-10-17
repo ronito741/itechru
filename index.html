@@ -28,7 +28,7 @@
                 Submit your system specs and error details below for professional expert review. Instant webhook dispatch to our engineering desk.
             </p>
             <div class="mt-4 inline-block bg-blue-950/60 border border-blue-800 text-blue-300 px-4 py-1.5 rounded-full text-sm font-medium">
-                Flat Triage Fee: $49.00
+                Free Request Submission
             </div>
         </div>
 
@@ -56,7 +56,7 @@
                 </div>
 
                 <button type="submit" id="submitBtn" class="w-full py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg transition duration-200 shadow-lg">
-                    Submit Triage Request ($49 Fee)
+                    Submit Request
                 </button>
                 
                 <p id="formStatus" class="text-sm text-center mt-3 font-medium"></p>
@@ -70,7 +70,7 @@
         &copy; 2026 IT Tech Secure. Newark, New Jersey. All rights reserved.
     </footer>
 
-    <!-- Script to Handle Discord Webhook & Redirect -->
+    <!-- Script to Handle Discord Webhook (No Payments) -->
     <script>
     document.getElementById('triageForm').addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -81,14 +81,14 @@
         const btn = document.getElementById('submitBtn');
 
         btn.disabled = true;
-        btn.textContent = 'Transmitting to Triage Desk...';
+        btn.textContent = 'Sending Request...';
 
         try {
             // REPLACE WITH YOUR ACTUAL DISCORD WEBHOOK URL
             const discordWebhookUrl = 'https://discord.com/api/webhooks/1525528528504885410/BGvNyfjTUWoflTtoBbI7Dljg4p-I6ku9jL2x8lVJkUpnfSLPws0YXxFctkzUMDl6Tj3E'; 
             
             const discordPayload = {
-                content: "🚨 **New Remote IT Triage Request Received!**",
+                content: "🚨 **New Free IT Request Received!**",
                 embeds: [{
                     title: "Client Triage Submission",
                     color: 3447003, // Blue
@@ -112,19 +112,17 @@
                 throw new Error('Discord webhook dispatch failed');
             }
 
-            status.textContent = 'Request received! Redirecting to secure payment...';
+            status.textContent = 'Request submitted successfully! We will contact you shortly.';
             status.className = 'text-sm text-center mt-3 text-green-400 font-medium';
-
-            // REPLACE WITH YOUR STRIPE OR PAYPAL PAYMENT LINK
-            setTimeout(() => {
-                window.location.href = 'https://your-stripe-payment-link-here'; 
-            }, 1500);
+            form.reset();
+            btn.disabled = false;
+            btn.textContent = 'Submit Request';
 
         } catch (error) {
             status.textContent = 'Submission error. Please call directly at 862-436-7086.';
             status.className = 'text-sm text-center mt-3 text-red-400 font-medium';
             btn.disabled = false;
-            btn.textContent = 'Submit Triage Request ($49 Fee)';
+            btn.textContent = 'Submit Request';
         }
     });
     </script>
