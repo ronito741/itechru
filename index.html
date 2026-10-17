@@ -176,9 +176,19 @@
         </div>
     </footer>
 
-    <!-- Comprehensive Validation & Error Handler Script -->
+    <!-- Full Fix Script: Input Handlers & Validation Logic -->
     <script>
-    // Phone Number Formatting Mask Handler
+    // 1. Strict Name Input Keypress Block (Prevents numbers & symbols instantly)
+    const nameInput = document.getElementById('clientName');
+    nameInput.addEventListener('keypress', function (e) {
+        const char = String.fromCharCode(e.which);
+        // Allow letters, spaces, hyphens, and apostrophes only
+        if (!/^[a-zA-Z\s'-]+$/.test(char)) {
+            e.preventDefault();
+        }
+    });
+
+    // 2. Phone Number Formatting Mask Handler
     const phoneInput = document.getElementById('clientPhone');
     phoneInput.addEventListener('input', function (e) {
         let inputVal = e.target.value.replace(/\D/g, '').substring(0, 10);
@@ -196,7 +206,7 @@
         validateField(e.target);
     });
 
-    // Real-time syntax event listeners for all input types
+    // 3. Real-time syntax event listeners for all input fields
     const fields = ['clientName', 'clientEmail', 'clientPhone', 'clientSpecs', 'clientMessage'];
     fields.forEach(id => {
         const el = document.getElementById(id);
@@ -219,25 +229,13 @@
             isValid = false;
             customMsg = 'This field cannot be empty.';
         } else if (el.id === 'clientName') {
-            // Comprehensive Name Syntax Validation
+            const nameRegex = /^[a-zA-Z\s'-]+$/;
             if (val.length < 2) {
                 isValid = false;
                 customMsg = 'Name must be at least 2 characters long.';
-            } else if (val.length > 60) {
+            } else if (!nameRegex.test(val)) {
                 isValid = false;
-                customMsg = 'Name is too long (maximum 60 characters).';
-            } else if (/\s{2,}/.test(val)) {
-                isValid = false;
-                customMsg = 'Invalid syntax: Avoid multiple consecutive spaces.';
-            } else {
-                // Allows letters (including international/accented characters), spaces, hyphens, and apostrophes
-                const nameRegex = /^[p{L}\s'-]+$/u;
-                // Fallback check standard ASCII letters/accents + hyphens + apostrophes + spaces
-                const safeNameRegex = /^[a-zA-ZÀ-ÿ\s'-]+$/;
-                if (!safeNameRegex.test(val)) {
-                    isValid = false;
-                    customMsg = 'Invalid syntax: Numbers and special symbols are not allowed.';
-                }
+                customMsg = 'Invalid syntax: Numbers and special symbols are not allowed.';
             }
         } else if (el.id === 'clientEmail') {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -288,6 +286,7 @@
         }
     }
 
+    // 4. Form Submission Handler
     document.getElementById('triageForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         const form = e.target;
