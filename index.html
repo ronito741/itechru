@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ITechru | Customer & Repair Manager</title>
+<style>
+:root{color-scheme:light dark;--bg:light-dark(#f4f7fb,#0b1422);--panel:light-dark(#fff,#111e30);--panel2:light-dark(#eef4fa,#17283e);--ink:light-dark(#15243a,#edf4ff);--muted:light-dark(#64748b,#a3b4cb);--line:light-dark(#dce5ef,#2a3b52);--blue:light-dark(#1266ad,#53c7ff);--nav:light-dark(#10243e,#081321);--green:#13845b;--amber:#a96b00;--red:#c24141}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--ink)}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:9px;padding:10px 14px;font-weight:650}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #53c7ff;outline-offset:2px}.primary{background:#147fc0;color:white}.secondary{background:var(--panel2);color:var(--ink);border:1px solid var(--line)}.danger{background:#fee2e2;color:#991b1b}.shell{min-height:100vh;background:var(--bg)}.topbar{height:72px;background:var(--nav);color:white;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,4vw,48px);gap:14px}.brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:20px;letter-spacing:-.4px}.logo{width:36px;height:36px;display:grid;place-items:center;border-radius:10px;background:#19a8ed;color:white}.brand small{display:block;color:#a9bfd7;font-size:11px;font-weight:500;letter-spacing:.4px}.top-actions{display:flex;gap:8px;align-items:center}.topbar button{background:#1b3a5b;color:white;border:1px solid #355575}.layout{display:grid;grid-template-columns:230px minmax(0,1fr);max-width:1500px;margin:auto;min-height:calc(100vh - 72px)}aside{padding:26px 14px;border-right:1px solid var(--line);background:var(--panel)}.nav-label{color:var(--muted);text-transform:uppercase;font-size:10px;font-weight:800;letter-spacing:1.3px;padding:0 12px;margin:5px 0 10px}.navbtn{width:100%;text-align:left;display:flex;align-items:center;gap:12px;padding:11px 12px;margin:3px 0;background:transparent;color:var(--muted);border:1px solid transparent}.navbtn.active{background:var(--panel2);border-color:var(--line);color:var(--ink)}.navbtn span:first-child{width:20px;text-align:center}.sidebar-note{margin:28px 7px 0;padding:13px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;color:var(--muted);font-size:12px}.sidebar-note strong{color:var(--ink);display:block;margin-bottom:5px}.main{padding:clamp(18px,3vw,36px);min-width:0}.eyebrow{color:var(--blue);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.4px}.headrow{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;margin-bottom:25px}.headrow h1{font-size:clamp(25px,3vw,34px);letter-spacing:-1px;margin:4px 0}.headrow p{color:var(--muted);margin:0}.actions{display:flex;gap:8px;flex-wrap:wrap}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:22px}.stat,.panel{background:var(--panel);border:1px solid var(--line);border-radius:15px;box-shadow:0 4px 16px #10243e08}.stat{padding:18px}.stat-top{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:12px}.stat-icon{width:32px;height:32px;display:grid;place-items:center;background:var(--panel2);border-radius:9px}.stat strong{display:block;font-size:29px;letter-spacing:-1px;margin-top:8px}.stat small{color:var(--muted)}.content-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(270px,.8fr);gap:16px}.panel{padding:20px;min-width:0}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px}.panel h2{font-size:16px;margin:0}.muted{color:var(--muted)}.pill{display:inline-flex;align-items:center;border-radius:99px;padding:4px 9px;font-size:11px;font-weight:750;white-space:nowrap;background:var(--panel2);color:var(--muted)}.pill.new{background:#dbeafe;color:#1d4ed8}.pill.progress{background:#fef3c7;color:#92400e}.pill.done{background:#d1fae5;color:#065f46}.pill.wait{background:#f3e8ff;color:#6b21a8}.pill.cancel{background:#fee2e2;color:#991b1b}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:13px;white-space:nowrap}th{text-align:left;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.8px;font-weight:800;padding:11px 10px;border-bottom:1px solid var(--line)}td{padding:13px 10px;border-bottom:1px solid var(--line)}tbody tr:last-child td{border-bottom:0}tbody tr{cursor:pointer}tbody tr:hover{background:var(--panel2)}.customer{font-weight:750}.subline{font-size:11px;color:var(--muted)}.status-select{border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:7px;padding:6px;font-size:11px;max-width:145px}.activity{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.activity:last-child{border:0}.dot{width:9px;height:9px;border-radius:50%;background:#1ba5e5;margin-top:6px;flex:none}.activity strong{display:block;font-size:13px}.activity small{color:var(--muted)}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}.field{display:flex;flex-direction:column;gap:6px;margin-bottom:13px;flex:1;min-width:0}.field label{font-size:12px;font-weight:750;color:var(--muted)}.field input,.field select,.field textarea,.toolbar input,.toolbar select{width:100%;border:1px solid var(--line);border-radius:9px;padding:10px 12px;background:var(--bg);color:var(--ink)}.field textarea{min-height:90px;resize:vertical}.toolbar input{min-width:210px;flex:1}.toolbar select{max-width:200px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}.span2{grid-column:1/-1}.detail-layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(260px,.8fr);gap:16px}.money-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.moneybox{padding:12px;border-radius:10px;background:var(--panel2)}.moneybox small{display:block;color:var(--muted);font-size:11px}.moneybox strong{font-size:19px}.note{padding:12px;border:1px solid var(--line);border-radius:10px;margin-top:10px;white-space:pre-wrap;overflow-wrap:anywhere}.notice{border:1px solid #e6c979;background:light-dark(#fff8df,#302813);color:light-dark(#77520a,#f7d77a);padding:12px 14px;border-radius:10px;font-size:12px;margin-bottom:18px}.empty{text-align:center;padding:30px;color:var(--muted)}.hidden{display:none!important}.footer-note{font-size:11px;color:var(--muted);margin-top:18px}.modal-backdrop{position:fixed;inset:0;background:#06111fcc;display:grid;place-items:center;padding:18px;z-index:5}.modal{width:min(720px,100%);max-height:92vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:23px;box-shadow:0 20px 80px #0005}.modal-top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:18px}.modal-top h2{margin:0}.toast{position:fixed;right:20px;bottom:20px;background:var(--nav);color:white;padding:13px 18px;border-radius:10px;box-shadow:0 8px 30px #0003;z-index:10;max-width:90vw}.mini-btn{padding:6px 9px;font-size:11px}.site-preview{max-width:900px;margin:auto;padding:20px}.site-hero{background:linear-gradient(135deg,#10243e,#075ca5);color:white;text-align:center;padding:55px 24px;border-radius:16px}.site-hero h2{font-size:clamp(30px,5vw,48px);line-height:1.1;margin:12px 0}.site-hero p{max-width:570px;margin:0 auto;color:#dceeff}.site-services{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}.service-card{padding:18px;border:1px solid var(--line);background:var(--panel);border-radius:12px}.service-card h3{font-size:14px}.service-card p{font-size:12px;color:var(--muted)}@media(max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}.content-grid,.detail-layout{grid-template-columns:1fr}.layout{grid-template-columns:190px minmax(0,1fr)}.site-services{grid-template-columns:repeat(2,1fr)}}@media(max-width:650px){.topbar{height:auto;min-height:68px;padding:14px;align-items:flex-start}.top-actions button{font-size:11px;padding:8px}.layout{display:block}.layout aside{display:flex;overflow:auto;padding:8px;border-right:0;border-bottom:1px solid var(--line);gap:4px}.nav-label,.sidebar-note{display:none}.navbtn{width:auto;white-space:nowrap;padding:9px 11px;margin:0}.navbtn span:first-child{display:none}.main{padding:17px 13px}.stats{gap:9px}.stat{padding:13px}.stat strong{font-size:24px}.panel{padding:14px}.form-grid{grid-template-columns:1fr}.span2{grid-column:auto}.site-services{grid-template-columns:1fr}.headrow{margin-bottom:18px}.money-grid{grid-template-columns:1fr 1fr}.moneybox:last-child{grid-column:1/-1}}
+</style>
+</head>
+<body>
+<div class="shell" id="app">
+<header class="topbar">
+  <div class="brand"><div class="logo">IT</div><div>ITechru<small id="brandSubtitle">CUSTOMER & REPAIR MANAGER</small></div></div>
+  <div class="top-actions">
+    <button id="switchModeBtn">🌐 Go to Customer Website</button>
+  </div>
+</header>
+
+<!-- ADMIN LAYOUT -->
+<div class="layout" id="adminLayout">
+<aside>
+<div class="nav-label">Workspace</div>
+<button class="navbtn active" data-page="overview"><span>▦</span> Overview</button>
+<button class="navbtn" data-page="requests"><span>▤</span> Repair requests <span id="navCount" class="pill">0</span></button>
+<button class="navbtn" data-page="customers"><span>♙</span> Customers</button>
+<button class="navbtn" data-page="payments"><span>＄</span> Estimates & payments</button>
+<div class="sidebar-note"><strong>Demo workspace</strong>Sample records are included so you can test the workflow. Data stays in this browser only.</div>
+</aside>
+<main class="main">
+<div class="notice"><strong>Prototype mode:</strong> this interactive preview stores demo changes in this browser only. It is not connected to a secure database, login, or email provider. Do not enter real customer or payment information until the backend is configured.</div>
+<section id="page-overview">
+<div class="headrow"><div><div class="eyebrow">Your business at a glance</div><h1>Good morning 👋</h1><p>Here’s what’s happening with your repair business.</p></div><div class="actions"><button class="secondary" id="resetDemo">Reset demo data</button><button class="primary" id="newRequestBtn">＋ New request</button></div></div>
+<div class="stats" id="stats"></div>
+<div class="content-grid"><div class="panel"><div class="panel-head"><h2>Recent repair requests</h2><button class="secondary mini-btn" data-goto="requests">View all →</button></div><div class="table-wrap"><table><thead><tr><th>Customer</th><th>Device / issue</th><th>Status</th><th>Estimate</th></tr></thead><tbody id="recentRows"></tbody></table></div></div><div class="panel"><div class="panel-head"><h2>Recent activity</h2><span class="pill">Latest</span></div><div id="activity"></div></div></div>
+</section>
+<section id="page-requests" class="hidden"><div class="headrow"><div><div class="eyebrow">Service desk</div><h1>Repair requests</h1><p>Review customer issues and move jobs through your workflow.</p></div><div class="actions"><button class="primary" id="newRequestBtn2">＋ Add request</button></div></div><div class="panel"><div class="toolbar"><input id="requestSearch" placeholder="Search name, email, device, reference…"><select id="statusFilter"><option value="">All statuses</option><option>New Request</option><option>Contacted</option><option>Diagnosing</option><option>Waiting for Parts</option><option>In Progress</option><option>Completed</option><option>Cancelled</option></select></div><div class="table-wrap"><table><thead><tr><th>Reference</th><th>Customer</th><th>Device / issue</th><th>Received</th><th>Status</th><th>Estimate</th><th></th></tr></thead><tbody id="requestRows"></tbody></table></div><div id="requestEmpty" class="empty hidden">No requests match your search.</div></div></section>
+<section id="page-customers" class="hidden"><div class="headrow"><div><div class="eyebrow">People</div><h1>Customers</h1><p>Customer contact information and repair history.</p></div></div><div class="panel"><div class="toolbar"><input id="customerSearch" placeholder="Search customer name or email…"></div><div class="table-wrap"><table><thead><tr><th>Customer</th><th>Email</th><th>Phone</th><th>Requests</th><th>Lifetime billed</th></tr></thead><tbody id="customerRows"></tbody></table></div></div></section>
+<section id="page-payments" class="hidden"><div class="headrow"><div><div class="eyebrow">Revenue tracking</div><h1>Estimates & payments</h1><p>Keep estimates, amounts paid, and outstanding balances organized.</p></div><button class="secondary" id="paymentsExport">↓ Export payments</button></div><div class="stats" id="paymentStats"></div><div class="panel"><div class="table-wrap"><table><thead><tr><th>Reference</th><th>Customer</th><th>Estimate</th><th>Paid</th><th>Balance</th><th>Status</th><th></th></tr></thead><tbody id="paymentRows"></tbody></table></div></div></section>
+<section id="page-detail" class="hidden"></section>
+<p class="footer-note">ITechru prototype • Currency in USD • Payments are manually recorded; this does not process card payments.</p>
+</main></div>
+
+<!-- CUSTOMER-FACING WEBSITE VIEW -->
+<div id="siteLayout" class="hidden">
+  <div class="site-preview">
+    <div class="site-hero">
+      <div class="eyebrow" style="color:#79d7ff">LOCAL HELP. CLEAR ANSWERS.</div>
+      <h2>Your Computer Repair Expert</h2>
+      <p>Friendly, reliable computer repair and remote technical support for homes and small businesses across New Jersey.</p>
+      <div style="display:flex;gap:10px;justify-content:center;margin-top:22px;flex-wrap:wrap">
+        <button class="primary" id="siteRequestBtn">Request a repair</button>
+        <button class="secondary" id="trackOrderStatusBtn" style="background:#075ca5;color:#fff;border-color:#3582c3">Track my repair</button>
+      </div>
+    </div>
+
+    <!-- TRACK REPAIR LOOKUP SECTION -->
+    <div class="panel" id="trackSection" style="margin:20px 0;background:var(--panel2)">
+      <h2>Check repair status</h2>
+      <p class="muted" style="font-size:12px;margin-bottom:12px">Enter your reference ID (e.g., IT-1042) to see your real-time repair status and estimate.</p>
+      <div style="display:flex;gap:8px">
+        <input id="trackInput" placeholder="Enter Reference ID (e.g. IT-1042)" style="border:1px solid var(--line);border-radius:9px;padding:10px 12px;background:var(--bg);color:var(--ink);flex:1">
+        <button class="primary" id="trackSubmitBtn">Check Status</button>
+      </div>
+      <div id="trackResult" class="hidden" style="margin-top:16px;padding:14px;background:var(--panel);border-radius:10px;border:1px solid var(--line)"></div>
+    </div>
+
+    <div class="site-services">
+      <div class="service-card"><div>💻</div><h3>Computer & Laptop Repair</h3><p>Startup issues, crashes, hardware problems, and troubleshooting.</p></div>
+      <div class="service-card"><div>⚡</div><h3>Slow Computer Tune-Up</h3><p>Performance checks and cleanup of unnecessary software.</p></div>
+      <div class="service-card"><div>🛡️</div><h3>Virus & Malware Help</h3><p>Help investigating pop-ups and security concerns.</p></div>
+      <div class="service-card"><div>💾</div><h3>Data & Backup Support</h3><p>File transfers, backup setup, and storage troubleshooting.</p></div>
+      <div class="service-card"><div>🔧</div><h3>Upgrades & Setup</h3><p>Computer setup, memory upgrades, printers, and accessories.</p></div>
+      <div class="service-card"><div>🌐</div><h3>Remote IT Support</h3><p>Remote troubleshooting for issues that can be handled online.</p></div>
+    </div>
+    <div class="panel" id="requestFormPanel">
+      <h2>Request computer repair</h2>
+      <p class="muted" style="margin:5px 0 18px">Submit your details below and our team will get back to you shortly with a reference ID.</p>
+      <form id="publicForm">
+        <div class="form-grid">
+          <div class="field"><label>Your name *</label><input name="name" required></div>
+          <div class="field"><label>Email address *</label><input name="email" type="email" required></div>
+          <div class="field"><label>Phone (optional)</label><input name="phone" type="tel"></div>
+          <div class="field"><label>Your device *</label><select name="device" required><option value="">Choose a device</option><option>Windows Desktop</option><option>Laptop</option><option>Mac</option><option>Custom-built PC</option><option>Other</option></select></div>
+          <div class="field"><label>Service needed *</label><select name="service" required><option value="">Choose a service</option><option>Computer Repair</option><option>Slow Computer Tune-Up</option><option>Virus & Malware Help</option><option>Data & Backup Support</option><option>Upgrades & Setup</option><option>Remote IT Support</option><option>Not Sure</option></select></div>
+          <div class="field"><label>Preferred support *</label><select name="support" required><option value="">Choose an option</option><option>In-person in New Jersey</option><option>Remote support</option><option>Either option</option></select></div>
+          <div class="field span2"><label>Describe the problem *</label><textarea name="details" required></textarea></div>
+        </div>
+        <button class="primary" type="submit">Submit repair request</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+</div>
+<div id="modalRoot"></div><div id="toast" class="toast hidden" role="status"></div>
+<script>
+const STATUSES=["New Request","Contacted","Diagnosing","Waiting for Parts","In Progress","Completed","Cancelled"];
+const services=["Computer Repair","Slow Computer Tune-Up","Virus & Malware Help","Data & Backup Support","Upgrades & Setup","Remote IT Support","Not Sure"];
+const seed=[
+{id:"IT-1042",name:"Jordan Lee",email:"jordan.lee@example.com",phone:"(201) 555-0142",device:"Windows Desktop",service:"Computer Repair",support:"In-person in New Jersey",details:"PC powers on but will not boot into Windows.",status:"Diagnosing",estimate:145,paid:0,notes:[{text:"Customer prefers text before any parts are ordered.",date:"2026-10-16"}],created:"2026-10-16"},
+{id:"IT-1041",name:"Maya Patel",email:"maya.patel@example.com",phone:"(973) 555-0118",device:"Laptop",service:"Slow Computer Tune-Up",support:"Remote support",details:"Laptop is very slow after startup; asked for a cleanup.",status:"In Progress",estimate:85,paid:40,notes:[{text:"Reviewed startup apps. Follow up after scan.",date:"2026-10-15"}],created:"2026-10-15"},
+{id:"IT-1040",name:"Chris Morgan",email:"chris.morgan@example.com",phone:"(862) 555-0199",device:"Mac",service:"Data & Backup Support",support:"Either option",details:"Needs help moving photos to an external drive.",status:"Waiting for Parts",estimate:120,paid:0,notes:[],created:"2026-10-14"},
+{id:"IT-1039",name:"Sam Rivera",email:"sam.rivera@example.com",phone:"(201) 555-0177",device:"Custom-built PC",service:"Upgrades & Setup",support:"In-person in New Jersey",details:"Wants to upgrade memory and check compatibility.",status:"Completed",estimate:95,paid:95,notes:[{text:"Upgrade completed; customer tested system.",date:"2026-10-13"}],created:"2026-10-12"},
+{id:"IT-1038",name:"Taylor Brooks",email:"taylor.brooks@example.com",phone:"(908) 555-0133",device:"Laptop",service:"Virus & Malware Help",support:"Remote support",details:"Repeated browser pop-ups and suspicious extensions.",status:"New Request",estimate:0,paid:0,notes:[],created:"2026-10-11"}
+];
+let records=JSON.parse(localStorage.getItem("itechruDemoRecords")||"null")||seed;
+let activities=JSON.parse(localStorage.getItem("itechruDemoActivities")||"null")||[{title:"Status updated to Diagnosing",detail:"IT-1042 · Jordan Lee",date:"Today"},{title:"Payment recorded · $40.00",detail:"IT-1041 · Maya Patel",date:"Yesterday"},{title:"New request received",detail:"IT-1038 · Taylor Brooks",date:"Oct 11"}];
+let currentPage="overview",selectedId=null,isCustomerSite=false;
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const money=n=>new Intl.NumberFormat("en-US",{style:"currency",currency:"USD",maximumFractionDigits:2}).format(Number(n)||0);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const statusClass=s=>s==="New Request"?"new":s==="Completed"?"done":s==="Waiting for Parts"?"wait":s==="Cancelled"?"cancel":s==="In Progress"||s==="Diagnosing"?"progress":"";
+function save(){localStorage.setItem("itechruDemoRecords",JSON.stringify(records));localStorage.setItem("itechruDemoActivities",JSON.stringify(activities));render();}
+function log(title,r){activities.unshift({title,detail:r.id+" · "+r.name,date:"Just now"});activities=activities.slice(0,8)}
+function toast(t){const el=$("#toast");el.textContent=t;el.classList.remove("hidden");setTimeout(()=>el.classList.add("hidden"),2600)}
+
+function setMode(customerMode){
+  isCustomerSite=customerMode;
+  $("#adminLayout").classList.toggle("hidden",customerMode);
+  $("#siteLayout").classList.toggle("hidden",!customerMode);
+  $("#switchModeBtn").textContent=customerMode?"⚙️ Go to Admin Manager":"🌐 Go to Customer Website";
+  $("#brandSubtitle").textContent=customerMode?"CUSTOMER PORTAL":"CUSTOMER & REPAIR MANAGER"; window.scrollTo({top:0,behavior:"smooth"}); }  function go(page){ if(isCustomerSite) setMode(false); currentPage=page; $$(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+  ["overview","requests","customers","payments","detail"].forEach(p=>$("#page-"+p).classList.toggle("hidden",p!==page));
+  render();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function statusPill(s){return `<span class="pill ${statusClass(s)}">${esc(s)}</span>`}
+function statusSelect(r){return `<select class="status-select" data-status="${r.id}" aria-label="Status for ${esc(r.name)}">${STATUSES.map(s=>`<option ${s===r.status?"selected":""}>${s}</option>`).join("")}</select>`}
+function renderStats(){const open=records.filter(r=>!["Completed","Cancelled"].includes(r.status)).length;const newCount=records.filter(r=>r.status==="New Request").length;const outstanding=records.reduce((a,r)=>a+Math.max(0,(+r.estimate||0)-(+r.paid||0)),0);const done=records.filter(r=>r.status==="Completed").length;$("#stats").innerHTML=[["Open requests",open,"Active repair jobs","▤"],["New requests",newCount,"Needs your attention","✦"],["Outstanding",money(outstanding),"Estimate less payments","＄"],["Completed",done,"Jobs finished","✓"]].map(x=>`<div class="stat"><div class="stat-top"><span>${x[0]}</span><span class="stat-icon">${x[3]}</span></div><strong>${x[1]}</strong><small>${x[2]}</small></div>`).join("");$("#navCount").textContent=newCount}
+function renderOverview(){renderStats();$("#recentRows").innerHTML=records.slice().sort((a,b)=>b.created.localeCompare(a.created)).slice(0,5).map(r=>`<tr data-open="${r.id}"><td><div class="customer">${esc(r.name)}</div><div class="subline">${r.id}</div></td><td><div>${esc(r.device)}</div><div class="subline">${esc(r.service)}</div></td><td>${statusPill(r.status)}</td><td>${r.estimate?money(r.estimate):"—"}</td></tr>`).join("");$("#activity").innerHTML=activities.slice(0,5).map(a=>`<div class="activity"><div class="dot"></div><div><strong>${esc(a.title)}</strong><small>${esc(a.detail)} · ${esc(a.date)}</small></div></div>`).join("")||'<div class="empty">No activity yet.</div>'}
+function renderRequests(){let q=($("#requestSearch")?.value\vert{}\vert{}"").toLowerCase(),st=$("#statusFilter")?.value||"";let list=records.filter(r=>(!st||r.status===st)&&[r.id,r.name,r.email,r.device,r.service,r.details].join(" ").toLowerCase().includes(q)).sort((a,b)=>b.created.localeCompare(a.created));$("#requestRows").innerHTML=list.map(r=>`<tr><td><button class="secondary mini-btn" data-open="${r.id}">${r.id}</button></td><td><div class="customer">${esc(r.name)}</div><div class="subline">${esc(r.email)}</div></td><td><div>${esc(r.device)}</div><div class="subline">${esc(r.service)}</div></td><td>${esc(r.created)}</td><td>${statusSelect(r)}</td><td>${r.estimate?money(r.estimate):"—"}</td><td><button class="secondary mini-btn" data-open="${r.id}">Open</button></td></tr>`).join("");$("#requestEmpty").classList.toggle("hidden",list.length>0)}
+function customers(){const map=new Map();records.forEach(r=>{let k=r.email.toLowerCase();if(!map.has(k))map.set(k,{name:r.name,email:r.email,phone:r.phone,requests:0,billed:0});let c=map.get(k);c.requests++;c.billed+=+r.paid||0});return [...map.values()]}
+function renderCustomers(){let q=($("#customerSearch")?.value\vert{}\vert{}"").toLowerCase();$("#customerRows").innerHTML=customers().filter(c=>(c.name+" "+c.email+" "+c.phone).toLowerCase().includes(q)).map(c=>`<tr><td class="customer">${esc(c.name)}</td><td>${esc(c.email)}</td><td>${esc(c.phone||"—")}</td><td>${c.requests}</td><td>${money(c.billed)}</td></tr>`).join("")||'<tr><td colspan="5" class="muted">No customers found.</td></tr>'}
+function renderPayments(){let total=records.reduce((a,r)=>a+(+r.estimate||0),0),paid=records.reduce((a,r)=>a+(+r.paid||0),0),balance=records.reduce((a,r)=>a+Math.max(0,(+r.estimate||0)-(+r.paid||0)),0);$("#paymentStats").innerHTML=[["Total estimates",money(total)],["Payments recorded",money(paid)],["Outstanding balance",money(balance)]].map(x=>`<div class="stat"><div class="stat-top">${x[0]}</div><strong>${x[1]}</strong></div>`).join("");$("#paymentRows").innerHTML=records.map(r=>`<tr><td><button class="secondary mini-btn" data-open="${r.id}">${r.id}</button></td><td>${esc(r.name)}</td><td>${money(r.estimate)}</td><td>${money(r.paid)}</td><td><strong>${money(Math.max(0,(+r.estimate||0)-(+r.paid||0)))}</strong></td><td>${statusPill(r.status)}</td><td><button class="secondary mini-btn" data-open="${r.id}">Edit</button></td></tr>`).join("")}
+function renderDetail(){let r=records.find(x=>x.id===selectedId);if(!r){go("requests");return}const sec=$("#page-detail");sec.innerHTML=`<div class="headrow"><div><button class="secondary mini-btn" id="detailBack">← All requests</button><div class="eyebrow" style="margin-top:12px">${r.id} · REPAIR RECORD</div><h1>${esc(r.name)}</h1><p>Received ${esc(r.created)} · ${esc(r.device)}</p></div><div class="actions"><button class="secondary" id="exportOne">Export record</button><button class="primary" id="editRecord">Edit details</button></div></div><div class="detail-layout"><div class="panel"><div class="panel-head"><h2>Repair overview</h2>${statusPill(r.status)}</div><div class="form-grid"><div><div class="muted subline">EMAIL</div><p>${esc(r.email)}</p></div><div><div class="muted subline">PHONE</div><p>${esc(r.phone||"—")}</p></div><div><div class="muted subline">DEVICE</div><p>${esc(r.device)}</p></div><div><div class="muted subline">SERVICE</div><p>${esc(r.service)}</p></div><div class="span2"><div class="muted subline">CUSTOMER'S DESCRIPTION</div><p>${esc(r.details)}</p></div><div class="field"><label>Repair status</label><select id="detailStatus">${STATUSES.map(s=>`<option ${s===r.status?"selected":""}>${s}</option>`).join("")}</select></div><div class="field"><label>Preferred support</label><input value="${esc(r.support)}" disabled></div></div><button class="primary" id="saveStatus">Save status</button><hr style="border:0;border-top:1px solid var(--line);margin:22px 0"><h2>Internal notes</h2><p class="muted" style="font-size:12px">Notes are for your team, not the customer.</p><form id="noteForm"><div class="field"><label>Add a note</label><textarea name="note" placeholder="Troubleshooting steps, customer preferences, parts ordered…" required></textarea></div><button class="secondary" type="submit">＋ Add internal note</button></form><div>${(r.notes||[]).slice().reverse().map(n=>`<div class="note">${esc(n.text)}<div class="subline" style="margin-top:8px">${esc(n.date)}</div></div>`).join("")||'<div class="empty">No notes added yet.</div>'}</div></div><div><div class="panel"><h2>Estimate & payments</h2><div class="money-grid" style="margin:15px 0"><div class="moneybox"><small>Estimate</small><strong>${money(r.estimate)}</strong></div><div class="moneybox"><small>Paid</small><strong>${money(r.paid)}</strong></div><div class="moneybox"><small>Balance</small><strong>${money(Math.max(0,(+r.estimate||0)-(+r.paid||0)))}</strong></div></div><form id="moneyForm"><div class="field"><label>Estimate amount (USD)</label><input name="estimate" type="number" min="0" step=".01" value="${+r.estimate||0}" required></div><div class="field"><label>Total paid to date (USD)</label><input name="paid" type="number" min="0" step=".01" value="${+r.paid||0}" required></div><button class="primary" type="submit">Save amounts</button></form><p class="footer-note">Record only amounts and payment status. Never store card numbers or security codes here.</p></div><div class="panel" style="margin-top:16px"><h2>Record actions</h2><p class="muted" style="font-size:12px">Update the record or remove this demo request.</p><button class="secondary" style="width:100%;margin-top:12px" id="editRecord2">Edit customer / issue</button><button class="danger" style="width:100%;margin-top:8px" id="deleteRecord">Delete demo record</button></div></div></div>`;
+$("#detailBack").onclick=()=>go("requests");$("#saveStatus").onclick=()=>{r.status=$("#detailStatus").value;log("Status updated to "+r.status,r);save();toast("Status saved")};$("#noteForm").onsubmit=e=>{e.preventDefault();r.notes=r.notes\vert{}\vert{}[];r.notes.push({text:new FormData(e.target).get("note").trim(),date:new Date().toISOString().slice(0,10)});log("Internal note added",r);save();toast("Note added")};$("#moneyForm").onsubmit=e=>{e.preventDefault();let f=new FormData(e.target);r.estimate=Math.max(0,+f.get("estimate"));r.paid=Math.max(0,+f.get("paid"));log("Estimate / payments updated",r);save();toast("Amounts saved")};$("#editRecord").onclick=$("#editRecord2").onclick=()=>openRequestModal(r);$("#exportOne").onclick=()=>downloadCSV([r],"itechru-"+r.id+".csv");$("#deleteRecord").onclick=()=>{if(confirm("Delete this demo record?")){records=records.filter(x=>x.id!==r.id);log("Demo request deleted",r);save();go("requests");toast("Demo record deleted")}}}
+function render(){if(!isCustomerSite){renderOverview();renderRequests();renderCustomers();renderPayments();if(currentPage==="detail")renderDetail()}}
+function openRequestModal(r=null){const edit=!!r;$("#modalRoot").innerHTML=`<div class="modal-backdrop" id="backdrop"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-top"><h2 id="modalTitle">${edit?"Edit repair request":"New repair request"}</h2><button class="secondary" id="closeModal" aria-label="Close">✕</button></div><form id="requestForm"><div class="form-grid"><div class="field"><label>Customer name *</label><input name="name" required value="${esc(r?.name||"")}"></div><div class="field"><label>Email address *</label><input name="email" type="email" required value="${esc(r?.email||"")}"></div><div class="field"><label>Phone</label><input name="phone" type="tel" value="${esc(r?.phone||"")}"></div><div class="field"><label>Device *</label><select name="device" required>${["Windows Desktop","Laptop","Mac","Custom-built PC","Other"].map(x=>`<option ${r?.device===x?"selected":""}>${x}</option>`).join("")}</select></div><div class="field"><label>Service *</label><select name="service" required>${services.map(x=>`<option ${r?.service===x?"selected":""}>${x}</option>`).join("")}</select></div><div class="field"><label>Preferred support</label><select name="support">${["In-person in New Jersey","Remote support","Either option"].map(x=>`<option ${r?.support===x?"selected":""}>${x}</option>`).join("")}</select></div><div class="field"><label>Status</label><select name="status">${STATUSES.map(x=>`<option ${r?.status===x?"selected":""}>${x}</option>`).join("")}</select></div><div class="field"><label>Estimate (USD)</label><input name="estimate" type="number" min="0" step=".01" value="${r?.estimate??0}"></div><div class="field span2"><label>Problem description *</label><textarea name="details" required>${esc(r?.details||"")}</textarea></div></div><div class="actions" style="justify-content:flex-end"><button type="button" class="secondary" id="cancelModal">Cancel</button><button class="primary" type="submit">${edit?"Save changes":"Create request"}</button></div></form></div></div>`;
+const close=()=>$("#modalRoot").innerHTML="";$("#closeModal").onclick=$("#cancelModal").onclick=close;$("#backdrop").addEventListener("click",e=>{if(e.target.id==="backdrop")close()});$("#requestForm").onsubmit=e=>{e.preventDefault();let f=new FormData(e.target),data=Object.fromEntries(f.entries());if(edit){Object.assign(r,{...data,estimate:+data.estimate||0});log("Repair request updated",r)}else{let n=Math.max(1042,...records.map(x=>+(x.id.split("-")[1])||0))+1;r={id:"IT-"+n,name:data.name,email:data.email,phone:data.phone,device:data.device,service:data.service,support:data.support,details:data.details,status:data.status,estimate:+data.estimate||0,paid:0,notes:[],created:new Date().toISOString().slice(0,10)};records.unshift(r);log("New request created",r)}close();save();toast(edit?"Request updated":"Request created");if(edit){selectedId=r.id;go("detail")}else go("requests")}
+function downloadCSV(list,filename="itechru-customer-records.csv"){const cols=["id","created","name","email","phone","device","service","support","details","status","estimate","paid","balance","internal_notes"];const cell=v=>'"'+String(v??"").replace(/"/g,'""')+'"';const rows=[cols.join(","),...list.map(r=>cols.map(k=>cell(k==="balance"?Math.max(0,(+r.estimate||0)-(+r.paid||0)):k==="internal_notes"?(r.notes||[]).map(n=>n.date+": "+n.text).join(" | "):r[k])).join(","))];const blob=new Blob(["\ufeff"+rows.join("\r\n")],{type:"text/csv;charset=utf-8;"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=filename;a.click();URL.revokeObjectURL(a.href);toast("CSV export downloaded")}
+
+document.addEventListener("click",e=>{const nav=e.target.closest("[data-page]");if(nav)go(nav.dataset.page);const goto=e.target.closest("[data-goto]");if(goto)go(goto.dataset.goto);const open=e.target.closest("[data-open]");if(open){selectedId=open.dataset.open;go("detail")}});
+document.addEventListener("change",e=>{if(e.target.matches("[data-status]")){let r=records.find(x=>x.id===e.target.dataset.status);if(r){r.status=e.target.value;log("Status updated to "+r.status,r);save();toast("Status updated")}});
+
+$("#requestSearch").addEventListener("input",renderRequests);$("#statusFilter").addEventListener("change",renderRequests);$("#customerSearch").addEventListener("input",renderCustomers);
+$("#newRequestBtn").onclick=$("#newRequestBtn2").onclick=()=>openRequestModal();$("#exportBtn").onclick=()=>downloadCSV(records);$("#paymentsExport").onclick=()=>downloadCSV(records.map(r=>({...r,details:"",notes:[]})),"itechru-payments.csv");
+$("#switchModeBtn").onclick=()=>setMode(!isCustomerSite);
+$("#siteRequestBtn").onclick=()=>$("#publicFormPanel").scrollIntoView({behavior:"smooth",block:"center"});
+$("#trackOrderStatusBtn").onclick=()=>$("#trackSection").scrollIntoView({behavior:"smooth",block:"center"});
+
+$("#trackSubmitBtn").onclick=()=>{
+  let queryId = $("#trackInput").value.trim().toUpperCase();
+  let resBox = $("#trackResult");
+  resBox.classList.remove("hidden");
+  let found = records.find(x => x.id.toUpperCase() === queryId);
+  if(!found){
+    resBox.innerHTML = `<p class="muted" style="margin:0">No repair request found matching <strong>${esc(queryId)}</strong>. Please check your reference ID.</p>`;
+  } else {
+    resBox.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <strong>Reference: ${found.id}</strong>
+        ${statusPill(found.status)}
+      </div>
+      <div style="font-size:13px;display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        <div><span class="muted">Device:</span> ${esc(found.device)}</div>
+        <div><span class="muted">Service:</span> ${esc(found.service)}</div>
+        <div><span class="muted">Received:</span> ${esc(found.created)}</div>
+        <div><span class="muted">Estimate:</span> ${found.estimate ? money(found.estimate) : 'Pending'}</div>
+      </div>
+    `;
+  }
+};
+
+$("#resetDemo").onclick=()=>{if(confirm("Reset all demo changes to the sample records?")){records=seed.map(r=>({...r,notes:[...r.notes]}));activities=[];save();toast("Demo reset")}};
+
+$("#publicForm").onsubmit=e=>{
+  e.preventDefault();
+  let d=Object.fromEntries(new FormData(e.target).entries());
+  let n=Math.max(1042,...records.map(x=>+(x.id.split("-")[1])||0))+1;
+  let newId="IT-"+n;
+  let r={id:newId,...d,status:"New Request",estimate:0,paid:0,notes:[],created:new Date().toISOString().slice(0,10)};
+  records.unshift(r);
+  log("New demo request received",r);
+  save();
+  e.target.reset();
+  
+  // Show confirmation with reference number to customer
+  $("#modalRoot").innerHTML=`<div class="modal-backdrop" id="backdrop"><div class="modal" role="dialog" style="text-align:center;padding:30px"><h2 style="margin-bottom:10px">Request Submitted Successfully! 🎉</h2><p class="muted">Thank you, <strong>${esc(r.name)}</strong>. Your request has been logged into our system.</p><div style="margin:20px 0;padding:15px;background:var(--panel2);border-radius:10px;display:inline-block"><div class="muted subline">YOUR REFERENCE ID</div><strong style="font-size:24px;color:var(--blue)">${r.id}</strong></div><p style="font-size:13px;margin-bottom:20px">Save this reference ID to track your repair status anytime from our portal.</p><button class="primary" id="closePublicModal">Got it</button></div></div>`;
+  $("#closePublicModal").onclick=$("#backdrop").onclick=()=>{$("#modalRoot").innerHTML="";};
+};
+
+render();
+</script></body></html>
