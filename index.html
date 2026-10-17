@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ITechRU | Computer & Laptop Repair - New Jersey</title>
+    <title>ITechRU | Personal Computer & Laptop Repair - New Jersey</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -80,23 +80,23 @@
         <div class="grid sm:grid-cols-2 gap-4">
             <div class="bg-card border border-gray-800/80 p-6 rounded-2xl shadow-xl">
                 <div class="text-blue-500 text-2xl mb-3">💻</div>
-                <h3 class="font-bold text-lg mb-2">Laptop Screen & Keyboard Repair</h3>
-                <p class="text-sm text-gray-400">Replacement of cracked laptop LCD/LED screens, broken hinges, and unresponsive keyboards or touchpads.</p>
+                <h3 class="font-bold text-lg mb-2">Screen & Keyboard Fix</h3>
+                <p class="text-sm text-gray-400">Quick replacement of cracked laptop LCD screens and unresponsive keyboards.</p>
             </div>
             <div class="bg-card border border-gray-800/80 p-6 rounded-2xl shadow-xl">
                 <div class="text-blue-500 text-2xl mb-3">🚀</div>
-                <h3 class="font-bold text-lg mb-2">SSD Upgrades & Speed Boost</h3>
-                <p class="text-sm text-gray-400">Swap out your old slow hard drive for a lightning-fast SSD and transfer all your personal files safely.</p>
+                <h3 class="font-bold text-lg mb-2">SSD Upgrade & Tune-Up</h3>
+                <p class="text-sm text-gray-400">Speed up your slow computer by upgrading to an SSD and cleaning up junk files.</p>
             </div>
             <div class="bg-card border border-gray-800/80 p-6 rounded-2xl shadow-xl">
                 <div class="text-blue-500 text-2xl mb-3">🔌</div>
-                <h3 class="font-bold text-lg mb-2">Power Jack & Battery Replacement</h3>
-                <p class="text-sm text-gray-400">Fix computers that won't charge, loose power charging ports, swollen laptop batteries, or dead power supplies.</p>
+                <h3 class="font-bold text-lg mb-2">Battery & Charging Fix</h3>
+                <p class="text-sm text-gray-400">Replace dead laptop batteries or repair loose charging ports that won't hold power.</p>
             </div>
             <div class="bg-card border border-gray-800/80 p-6 rounded-2xl shadow-xl">
-                <div class="text-blue-500 text-2xl mb-3">🌡️</div>
-                <h3 class="font-bold text-lg mb-2">Overheating & Fan Cleaning</h3>
-                <p class="text-sm text-gray-400">Deep dust cleaning inside desktops and laptops, fan replacements, and new thermal paste to stop loud fans and crashes.</p>
+                <div class="text-blue-500 text-2xl mb-3">🛡️</div>
+                <h3 class="font-bold text-lg mb-2">Virus & Malware Removal</h3>
+                <p class="text-sm text-gray-400">Clean out adware, pop-ups, and malware to get your PC running smoothly again.</p>
             </div>
         </div>
     </section>
@@ -134,27 +134,28 @@
                         <p id="error-clientPhone" class="text-xs text-red-400 mt-1.5 hidden flex items-center gap-1">⚠️ <span class="msg">Invalid syntax</span></p>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Select Repair Service</label>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Select Simple Repair Type</label>
                         <select id="serviceType" name="repair_category" class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition">
-                            <option value="Laptop Screen or Keyboard Replacement">💻 Laptop Screen / Keyboard Replacement</option>
-                            <option value="SSD Upgrade & Data Transfer">🚀 SSD Upgrade & Data Transfer</option>
-                            <option value="Laptop Battery or Charging Port Fix">🔌 Battery / Power Charging Port Repair</option>
-                            <option value="Computer Overheating / Fan Cleaning">🌡️ Overheating / Fan Cleaning / Thermal Paste</option>
-                            <option value="Won't Turn On / No Power Diagnostics">⚡ Won't Turn On / Power Diagnostics</option>
-                            <option value="Virus Removal & Operating System Tuneup">🛡️ Virus Removal & OS Tune-up</option>
+                            <option value="Laptop Screen Replacement">💻 Laptop Screen Replacement</option>
+                            <option value="Keyboard Repair">⌨️ Keyboard Replacement</option>
+                            <option value="SSD Upgrade / Speed Boost">🚀 SSD Upgrade & Speed Boost</option>
+                            <option value="Battery Replacement">🔋 Battery Replacement</option>
+                            <option value="Charging Port Fix">🔌 Charging Port Repair</option>
+                            <option value="Virus / Malware Removal">🛡️ Virus & Malware Removal</option>
+                            <option value="Fan Cleaning / Dust Removal">🧹 Fan Cleaning & Dust Removal</option>
                         </select>
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Device Brand & Model (e.g., HP Pavilion, Dell Inspiron, Custom PC)</label>
-                    <input type="text" id="clientSpecs" name="device_model" required class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition" placeholder="e.g., HP Laptop 15-dy2024nr or Custom Desktop">
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Device Brand & Model (e.g., HP Laptop, Dell Inspiron)</label>
+                    <input type="text" id="clientSpecs" name="device_model" required class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition" placeholder="e.g., HP Laptop 15-dy2024nr or Dell Inspiron 15">
                     <p id="error-clientSpecs" class="text-xs text-red-400 mt-1.5 hidden flex items-center gap-1">⚠️ <span class="msg">Invalid syntax</span></p>
                 </div>
 
                 <div>
                     <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Describe What's Wrong With Your Computer</label>
-                    <textarea id="clientMessage" name="issue_description" rows="4" required class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition" placeholder="Tell us what symptoms your computer is showing (e.g., extremely slow, screen flickers, won't charge, makes loud noises)..."></textarea>
+                    <textarea id="clientMessage" name="issue_description" rows="4" required class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition" placeholder="Tell us what simple fix your computer needs (e.g., cracked screen, extremely slow startup, battery dies quickly)..."></textarea>
                     <p id="error-clientMessage" class="text-xs text-red-400 mt-1.5 hidden flex items-center gap-1">⚠️ <span class="msg">Invalid syntax</span></p>
                 </div>
 
