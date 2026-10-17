@@ -78,8 +78,10 @@
       <p class="muted" style="margin:5px 0 18px">Submit your details below and our team will receive an instant email notification.</p>
       
       <form id="publicForm">
-        <!-- Web3Forms Configuration: Target email ronito741@gmail.com -->
+        <!-- ========================================== -->
+        <!-- ADD THE WEB3 CODE HERE:                    -->
         <input type="hidden" name="access_key" value="de391c53-f277-466a-b6c8-60184fd3f3e4">
+        <!-- ========================================== -->
         <input type="hidden" name="subject" value="New Repair Request from ITechru Website">
 
         <div class="form-grid">
@@ -180,11 +182,11 @@ $("#trackSubmitBtn").onclick=()=>{
 
 $("#resetDemo").onclick=()=>{if(confirm("Reset all demo changes to the sample records?")){records=seed.map(r=>({...r,notes:[...r.notes]}));activities=[];save();toast("Demo reset")}};
 
+// Public form submission with Web3Forms Integration to ronito741@gmail.com
+$("#publicForm").onsubmit=async e=>{
   e.preventDefault();
   const form = e.target;
   let submitBtn = $("#publicSubmitBtn");
-  <input type="hidden" name="access_key" value="de391c53-f277-466a-b6c8-60184fd3f3e4">
-  <input type="hidden" name="subject" value="New Repair Request from ITechru Website">$("#publicForm").onsubmit=async e=>{                               
   let originalText = submitBtn.textContent;
   submitBtn.textContent = "Sending request...";
   submitBtn.disabled = true;
