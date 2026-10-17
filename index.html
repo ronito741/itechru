@@ -1,3 +1,5 @@
+# 1. Update index.html
+sudo tee /var/www/html/index.html > /dev/null << 'EOF'
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
@@ -222,7 +224,14 @@
                 body: JSON.stringify(data)
             });
 
-            const result = await response.json();
+            const textResponse = await response.text();
+            let result;
+            try {
+                result = JSON.parse(textResponse);
+            } catch (e) {
+                throw new Error("Server returned non-JSON response: " + textResponse);
+            }
+
             if (result.success) {
                 showStatus('✅ Ticket successfully sent to Discord!', 'success');
             } else {
@@ -240,12 +249,10 @@
 </html>
 EOF
 
-# 2. Update notify.php
+# 2. Update notify.php with explicit error reporting
 sudo tee /var/www/html/notify.php > /dev/null << 'EOF'
 <?php
-ini_set('display_errors', 0);
-error_reporting(E_ALL);
-
+// Ensure errors are returned as JSON instead of breaking execution
 header('Content-Type: application/json');
 
 try {
@@ -299,7 +306,7 @@ try {
 ?>
 EOF
 
-# 3. Set file permissions & restart Apache
+# 3. Fix permissions and restart Apache
 sudo chown -R www-data:www-data /var/www/html
 sudo chmod 755 /var/www/html/index.html
 sudo chmod 644 /var/www/html/notify.php
