@@ -1,16 +1,3 @@
-#!/bin/bash
-# ==============================================================================
-# ITechRU Production Deployment Script (WhatsApp + Discord + Error Handling)
-# Target: /var/www/html/index.html
-# ==============================================================================
-
-set -e
-
-echo "[*] Creating web root directory if missing..."
-sudo mkdir -p /var/www/html
-
-echo "[*] Writing updated index.html with robust error handling and status UI..."
-sudo tee /var/www/html/index.html > /dev/null << 'EOF'
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
@@ -186,7 +173,6 @@ sudo tee /var/www/html/index.html > /dev/null << 'EOF'
         const statusEl = document.getElementById('formStatus');
         const submitBtn = document.getElementById('submitBtn');
 
-        // Helper function to display status messages
         function showStatus(text, type) {
             statusEl.textContent = text;
             statusEl.classList.remove('hidden', 'bg-emerald-950/40', 'border-emerald-800', 'text-emerald-400', 'bg-red-950/40', 'border-red-800', 'text-red-400', 'bg-blue-950/40', 'border-blue-800', 'text-blue-300');
@@ -200,24 +186,19 @@ sudo tee /var/www/html/index.html > /dev/null << 'EOF'
             }
         }
 
-        // 1. Validation Error Handling
         if (!name || !phone || !specs || !message) {
             showStatus('⚠️ Please fill out all required form fields before dispatching your ticket.', 'error');
             return;
         }
 
-        // Disable button & show loading state
         submitBtn.disabled = true;
         submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
         showStatus('⏳ Dispatching ticket to Discord & preparing WhatsApp...', 'info');
 
         let discordSuccess = false;
+        const discordWebhookUrl = "https://discord.com/api/webhooks/1525528528504885410/BGvNyfjTUWoflTtoBbI7Dljg4p-I6ku9jL2x8lVJkUpnfSLPws0YXxFctkzUMDl6Tj3E";
 
-        // 2. Discord Webhook Integration with Try/Catch Error Handling
-        // Replace "YOUR_DISCORD_WEBHOOK_URL_HERE" with your valid webhook URL when ready
-        const discordWebhookUrl = "YOUR_DISCORD_WEBHOOK_URL_HERE";
-
-        if (discordWebhookUrl && discordWebhookUrl !== "YOUR_DISCORD_WEBHOOK_URL_HERE") {
+        if (discordWebhookUrl && discordWebhookUrl !== "https://discord.com/api/webhooks/1525528528504885410/BGvNyfjTUWoflTtoBbI7Dljg4p-I6ku9jL2x8lVJkUpnfSLPws0YXxFctkzUMDl6Tj3E") {
             const discordPayload = {
                 content: `🚨 **New ITechRU Support Ticket!**\n` +
                          `• **Name:** ${name}\n` +
@@ -244,7 +225,6 @@ sudo tee /var/www/html/index.html > /dev/null << 'EOF'
             }
         }
 
-        // 3. WhatsApp Redirect Construction & Execution
         try {
             const whatsappNumber = "18624367086";
             const text = `*New ITechRU Service Ticket*%0A%0A*Name:* ${encodeURIComponent(name)}%0A*Contact:* ${encodeURIComponent(phone)}%0A*Service:* ${encodeURIComponent(service)}%0A*Specs:* ${encodeURIComponent(specs)}%0A*Issue:* ${encodeURIComponent(message)}`;
@@ -263,7 +243,6 @@ sudo tee /var/www/html/index.html > /dev/null << 'EOF'
             console.error('WhatsApp redirect error caught:', err);
             showStatus('❌ Error opening WhatsApp. Please call or message direct at 862-436-7086.', 'error');
         } finally {
-            // Re-enable submit button
             submitBtn.disabled = false;
             submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
         }
@@ -271,16 +250,3 @@ sudo tee /var/www/html/index.html > /dev/null << 'EOF'
     </script>
 </body>
 </html>
-EOF
-
-echo "[*] Setting correct file permissions..."
-sudo chown -R www-data:www-data /var/www/html
-sudo chmod -R 755 /var/www/html
-
-echo "[*] Restarting Apache web server..."
-sudo systemctl restart apache2
-
-echo "[*] Verifying Apache service status..."
-sudo systemctl status apache2 --no-pager
-
-echo "[*] Deployment complete! Error handling, status UI, and Discord integration installed."
