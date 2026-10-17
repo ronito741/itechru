@@ -22,6 +22,11 @@
 </head>
 <body class="bg-darker text-gray-100 font-sans antialiased selection:bg-blue-600 selection:text-white">
 
+    <!-- Global Syntax & Runtime Error Banner -->
+    <div id="globalErrorBanner" class="hidden bg-red-950/90 border-b border-red-800 text-red-300 py-2 px-4 text-xs text-center sticky top-0 z-50">
+        ⚠️ <span id="globalErrorText">An unexpected script error occurred.</span>
+    </div>
+
     <!-- Top Info Bar -->
     <div class="bg-blue-950/40 border-b border-blue-900/50 py-2 px-4 text-xs">
         <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 text-gray-300">
@@ -35,7 +40,7 @@
     </div>
 
     <!-- Header / Navbar -->
-    <header class="border-b border-gray-800 bg-card/80 backdrop-blur sticky top-0 z-50">
+    <header class="border-b border-gray-800 bg-card/80 backdrop-blur sticky top-0 z-40">
         <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <div class="h-9 w-9 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-lg text-white shadow-lg shadow-blue-600/30">
@@ -142,10 +147,10 @@
 
                 <!-- Separated Action Buttons -->
                 <div class="grid sm:grid-cols-2 gap-4 pt-2">
-                    <button type="button" id="whatsappBtn" onclick="sendToWhatsApp()" class="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 text-base">
+                    <button type="button" id="whatsappBtn" onclick="try { sendToWhatsApp(); } catch(e) { handleScriptError(e); }" class="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 text-base">
                         💬 Send via WhatsApp
                     </button>
-                    <button type="button" id="discordBtn" onclick="sendToDiscord()" class="w-full py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition shadow-lg shadow-indigo-600/20 flex items-center justify-center gap-2 text-base">
+                    <button type="button" id="discordBtn" onclick="try { sendToDiscord(); } catch(e) { handleScriptError(e); }" class="w-full py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition shadow-lg shadow-indigo-600/20 flex items-center justify-center gap-2 text-base">
                         🔔 Send to Discord
                     </button>
                 </div>
@@ -165,33 +170,77 @@
         </div>
     </footer>
 
-    <!-- Scripts with Separate Handlers -->
+    <!-- Syntax & Runtime Error Handlers Script -->
     <script>
-    function showStatus(text, type) {
-        const statusEl = document.getElementById('formStatus');
-        statusEl.textContent = text;
-        statusEl.classList.remove('hidden', 'bg-emerald-950/40', 'border-emerald-800', 'text-emerald-400', 'bg-red-950/40', 'border-red-800', 'text-red-400', 'bg-blue-950/40', 'border-blue-800', 'text-blue-300', 'bg-indigo-950/40', 'border-indigo-800', 'text-indigo-300');
+    window.onerror = function(msg, url, lineNo, columnNo, error) {
+        console.error('Global Error Captured: ', { msg, url, lineNo, columnNo, error });
+        handleScriptError(msg);
+        return true;
+    };
+
+    window.addEventListener('unhandledrejection', function(event) {
+        console.error('Unhandled Promise Rejection: ', event.reason);
+        handleScriptError(event.reason?.message || 'Async operation failed');
+    });
+
+    function handleScriptError(err) {
+        const errorMsg = typeof err === 'string' ? err : (err.message || 'Unknown error');
+        console.error('Script Error Handler Triggered: ', errorMsg);
         
-        if (type === 'success') {
-            statusEl.classList.add('bg-emerald-950/40', 'border-emerald-800', 'text-emerald-400');
-        } else if (type === 'error') {
-            statusEl.classList.add('bg-red-950/40', 'border-red-800', 'text-red-400');
-        } else {
-            statusEl.classList.add('bg-indigo-950/40', 'border-indigo-800', 'text-indigo-300');
+        const banner = document.getElementById('globalErrorBanner');
+        const errorText = document.getElementById('globalErrorText');
+        if (banner && errorText) {
+            errorText.textContent = `Script Error: ${errorMsg}`;
+            banner.classList.remove('hidden');
+        }
+
+        showStatus(`❌ Error: ${errorMsg}. Please call or message direct at 862-436-7086.`, 'error');
+
+        const whatsappBtn = document.getElementById('whatsappBtn');
+        const discordBtn = document.getElementById('discordBtn');
+        if (whatsappBtn) { whatsappBtn.disabled = false; whatsappBtn.classList.remove('opacity-50', 'cursor-not-allowed'); }
+        if (discordBtn) { discordBtn.disabled = false; discordBtn.classList.remove('opacity-50', 'cursor-not-allowed'); }
+    }
+
+    function showStatus(text, type) {
+        try {
+            const statusEl = document.getElementById('formStatus');
+            if (!statusEl) return;
+            statusEl.textContent = text;
+            statusEl.classList.remove('hidden', 'bg-emerald-950/40', 'border-emerald-800', 'text-emerald-400', 'bg-red-950/40', 'border-red-800', 'text-red-400', 'bg-blue-950/40', 'border-blue-800', 'text-blue-300', 'bg-indigo-950/40', 'border-indigo-800', 'text-indigo-300');
+            
+            if (type === 'success') {
+                statusEl.classList.add('bg-emerald-950/40', 'border-emerald-800', 'text-emerald-400');
+            } else if (type === 'error') {
+                statusEl.classList.add('bg-red-950/40', 'border-red-800', 'text-red-400');
+            } else {
+                statusEl.classList.add('bg-indigo-950/40', 'border-indigo-800', 'text-indigo-300');
+            }
+        } catch (e) {
+            console.error('Error in showStatus:', e);
         }
     }
 
     function getFormData() {
+        const nameEl = document.getElementById('clientName');
+        const phoneEl = document.getElementById('clientPhone');
+        const serviceEl = document.getElementById('serviceType');
+        const specsEl = document.getElementById('clientSpecs');
+        const messageEl = document.getElementById('clientMessage');
+
+        if (!nameEl || !phoneEl || !serviceEl || !specsEl || !messageEl) {
+            throw new Error('DOM Element lookup failed for form fields');
+        }
+
         return {
-            name: document.getElementById('clientName').value.trim(),
-            phone: document.getElementById('clientPhone').value.trim(),
-            service: document.getElementById('serviceType').value,
-            specs: document.getElementById('clientSpecs').value.trim(),
-            message: document.getElementById('clientMessage').value.trim()
+            name: nameEl.value.trim(),
+            phone: phoneEl.value.trim(),
+            service: serviceEl.value,
+            specs: specsEl.value.trim(),
+            message: messageEl.value.trim()
         };
     }
 
-    // 1. WhatsApp Handler
     function sendToWhatsApp() {
         const data = getFormData();
 
@@ -203,16 +252,13 @@
         const whatsappNumber = "18624367086";
         const text = `*New ITechRU Service Ticket*%0A%0A*Name:* ${encodeURIComponent(data.name)}%0A*Contact:* ${encodeURIComponent(data.phone)}%0A*Service:* ${encodeURIComponent(data.service)}%0A*Specs:* ${encodeURIComponent(data.specs)}%0A*Issue:* ${encodeURIComponent(data.message)}`;
         
-        try {
-            const win = window.open(`https://wa.me/${whatsappNumber}?text=${text}`, '_blank');
-            if (!win) throw new Error('Popup blocked');
-            showStatus('✅ WhatsApp opened successfully with your ticket details!', 'success');
-        } catch (err) {
-            showStatus('❌ Error opening WhatsApp. Please call or message direct at 862-436-7086.', 'error');
+        const win = window.open(`https://wa.me/${whatsappNumber}?text=${text}`, '_blank');
+        if (!win) {
+            throw new Error('Popup blocked by browser. Please allow popups or contact direct.');
         }
+        showStatus('✅ WhatsApp opened successfully with your ticket details!', 'success');
     }
 
-    // 2. Discord Webhook Handler
     async function sendToDiscord() {
         const data = getFormData();
         const discordBtn = document.getElementById('discordBtn');
@@ -226,12 +272,14 @@
         const discordWebhookUrl = "https://discord.com/api/webhooks/1525528528504885410/BGvNyfjTUWoflTtoBbI7Dljg4p-I6ku9jL2x8lVJkUpnfSLPws0YXxFctkzUMDl6Tj3E";
 
         if (!discordWebhookUrl || discordWebhookUrl === "https://discord.com/api/webhooks/1525528528504885410/BGvNyfjTUWoflTtoBbI7Dljg4p-I6ku9jL2x8lVJkUpnfSLPws0YXxFctkzUMDl6Tj3E") {
-            showStatus('⚠️ Discord Webhook URL is not configured in the code yet.', 'error');
+            showStatus('⚠️ Discord Webhook URL is not configured in code yet. Update index.html with your webhook.', 'error');
             return;
         }
 
-        discordBtn.disabled = true;
-        discordBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        if (discordBtn) {
+            discordBtn.disabled = true;
+            discordBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        }
         showStatus('⏳ Dispatching ticket notification to Discord...', 'info');
 
         const discordPayload = {
@@ -253,14 +301,16 @@
             if (response.ok) {
                 showStatus('✅ Ticket successfully sent to Discord!', 'success');
             } else {
-                throw new Error(`Discord API error: Status ${response.status}`);
+                throw new Error(`Discord API returned status code ${response.status}`);
             }
         } catch (err) {
-            console.error('Discord webhook error:', err);
-            showStatus('❌ Failed to send to Discord. Check console for details.', 'error');
+            console.error('Discord webhook fetch error:', err);
+            throw new Error(`Network failure connecting to Discord webhook (${err.message})`);
         } finally {
-            discordBtn.disabled = false;
-            discordBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            if (discordBtn) {
+                discordBtn.disabled = false;
+                discordBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
         }
     }
     </script>
