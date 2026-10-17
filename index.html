@@ -1,3 +1,17 @@
+#!/bin/bash
+# ==============================================================================
+# ITechRU Complete Production Deployment Script
+# Target: /var/www/html/
+# Features: index.html with Error Handling & notify.php JSON CORS Handler
+# ==============================================================================
+
+set -e
+
+echo "[*] Creating web root directory if missing..."
+sudo mkdir -p /var/www/html
+
+echo "[*] Writing index.html..."
+sudo tee /var/www/html/index.html > /dev/null << 'EOF'
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
@@ -260,3 +274,71 @@
     </script>
 </body>
 </html>
+EOF
+
+echo "[*] Writing notify.php..."
+sudo tee /var/www/html/notify.php > /dev/null << 'EOF'
+<?php
+ini_set('display_errors', 0);
+error_reporting(E_ALL);
+
+header('Content-Type: application/json');
+
+try {
+    $rawInput = file_get_contents('php://input');
+    $input = json_decode($rawInput, true);
+
+    if (!$input || empty($input['name']) \vert{}\vert{} empty($input['phone'])) {
+        echo json_encode(['success' => false, 'error' => 'Missing required form fields']);
+        exit;
+    }
+
+    $webhookUrl = "https://discord.com/api/webhooks/1525528528504885410/BGvNyfjTUWoflTtoBbI7Dljg4p-I6ku9jL2x8lVJkUpnfSLPws0YXxFctkzUMDl6Tj3E";
+
+    $payload = [
+        "content" => "🚨 **New ITechRU Support Ticket!**\n" .
+                     "• **Name:** " . $input['name'] . "\n" .
+                     "• **Contact Number:** " . $input['phone'] . "\n" .
+                     "• **Service:** " . $input['service'] . "\n" .
+                     "• **Specs:** " . $input['specs'] . "\n" .
+                     "• **Issue:** " . $input['message']
+    ];
+
+    $ch = curl_init($webhookUrl);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json'
+    ]);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+
+    $response = curl_exec($ch);
+    $curlError = curl_error($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($curlError) {
+        echo json_encode(['success' => false, 'error' => 'cURL Error: ' . $curlError]);
+        exit;
+    }
+
+    if ($httpCode >= 200 &&$httpCode < 300) {
+        echo json_encode(['success' => true]);
+    } else {
+        echo json_encode(['success' => false, 'error' => 'Discord API returned status ' . $httpCode]);
+    }
+
+} catch (Exception $e) {
+    echo json_encode(['success' => false, 'error' => 'Server Exception: ' . $e->getMessage()]);
+}
+?>
+EOF
+
+echo "[*] Setting file permissions and restarting Apache..."
+sudo chown -R www-data:www-data /var/www/html
+sudo chmod 755 /var/www/html/index.html
+sudo chmod 644 /var/www/html/notify.php
+sudo systemctl restart apache2
+
+echo "[*] Deployment completed successfully! ITechRU is live at https://itechru.us"
