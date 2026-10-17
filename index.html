@@ -180,8 +180,8 @@ $("#trackSubmitBtn").onclick=()=>{
 
 $("#resetDemo").onclick=()=>{if(confirm("Reset all demo changes to the sample records?")){records=seed.map(r=>({...r,notes:[...r.notes]}));activities=[];save();toast("Demo reset")}};
 
-// Public form submission with Web3Forms Integration to ronito741@gmail.com
-$("#publicForm").onsubmit=async e=>{
+  <input type="hidden" name="access_key" value="de391c53-f277-466a-b6c8-60184fd3f3e4">
+  <input type="hidden" name="subject" value="New Repair Request from ITechru Website">$("#publicForm").onsubmit=async e=>{
   e.preventDefault();
   const form = e.target;
   let submitBtn = $("#publicSubmitBtn");
