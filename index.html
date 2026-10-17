@@ -1,8 +1,7 @@
 #!/bin/bash
 # ==============================================================================
-# ITechRU Complete Production Deployment Script
+# ITechRU Production Deployment Script (Separate Discord & WhatsApp Actions)
 # Target: /var/www/html/index.html
-# Features: WhatsApp Routing, Discord Webhook Integration, Live Error Handling
 # ==============================================================================
 
 set -e
@@ -10,7 +9,7 @@ set -e
 echo "[*] Creating web root directory if missing..."
 sudo mkdir -p /var/www/html
 
-echo "[*] Writing full production index.html..."
+echo "[*] Writing updated index.html with separate Discord and WhatsApp buttons..."
 sudo tee /var/www/html/index.html > /dev/null << 'EOF'
 <!DOCTYPE html>
 <html lang="en" class="dark">
@@ -118,7 +117,7 @@ sudo tee /var/www/html/index.html > /dev/null << 'EOF'
         <div class="bg-card border border-gray-800 rounded-2xl p-8 sm:p-10 shadow-2xl">
             <div class="text-center mb-8">
                 <h3 class="text-2xl font-bold mb-2">Submit a Service Request</h3>
-                <p class="text-sm text-gray-400">Complete the details below to dispatch your ticket instantly via WhatsApp and Discord.</p>
+                <p class="text-sm text-gray-400">Choose your preferred method to dispatch your ticket instantly.</p>
             </div>
 
             <div id="triageForm" class="space-y-5">
@@ -154,9 +153,13 @@ sudo tee /var/www/html/index.html > /dev/null << 'EOF'
                     <textarea id="clientMessage" rows="4" required class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-blue-500 transition" placeholder="Explain the hardware failure, network drop, or boot error..."></textarea>
                 </div>
 
-                <div>
-                    <button type="button" id="submitBtn" onclick="sendToWhatsApp()" class="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 text-base">
-                        💬 Dispatch Ticket to WhatsApp & Discord
+                <!-- Separated Action Buttons -->
+                <div class="grid sm:grid-cols-2 gap-4 pt-2">
+                    <button type="button" id="whatsappBtn" onclick="sendToWhatsApp()" class="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 text-base">
+                        💬 Send via WhatsApp
+                    </button>
+                    <button type="button" id="discordBtn" onclick="sendToDiscord()" class="w-full py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition shadow-lg shadow-indigo-600/20 flex items-center justify-center gap-2 text-base">
+                        🔔 Send to Discord
                     </button>
                 </div>
 
@@ -175,92 +178,102 @@ sudo tee /var/www/html/index.html > /dev/null << 'EOF'
         </div>
     </footer>
 
-    <!-- Script with Discord Webhook & Error Handling -->
+    <!-- Scripts with Separate Handlers -->
     <script>
-    async function sendToWhatsApp() {
-        const name = document.getElementById('clientName').value.trim();
-        const phone = document.getElementById('clientPhone').value.trim();
-        const service = document.getElementById('serviceType').value;
-        const specs = document.getElementById('clientSpecs').value.trim();
-        const message = document.getElementById('clientMessage').value.trim();
-        
+    function showStatus(text, type) {
         const statusEl = document.getElementById('formStatus');
-        const submitBtn = document.getElementById('submitBtn');
-
-        function showStatus(text, type) {
-            statusEl.textContent = text;
-            statusEl.classList.remove('hidden', 'bg-emerald-950/40', 'border-emerald-800', 'text-emerald-400', 'bg-red-950/40', 'border-red-800', 'text-red-400', 'bg-blue-950/40', 'border-blue-800', 'text-blue-300');
-            
-            if (type === 'success') {
-                statusEl.classList.add('bg-emerald-950/40', 'border-emerald-800', 'text-emerald-400');
-            } else if (type === 'error') {
-                statusEl.classList.add('bg-red-950/40', 'border-red-800', 'text-red-400');
-            } else {
-                statusEl.classList.add('bg-blue-950/40', 'border-blue-800', 'text-blue-300');
-            }
+        statusEl.textContent = text;
+        statusEl.classList.remove('hidden', 'bg-emerald-950/40', 'border-emerald-800', 'text-emerald-400', 'bg-red-950/40', 'border-red-800', 'text-red-400', 'bg-blue-950/40', 'border-blue-800', 'text-blue-300', 'bg-indigo-950/40', 'border-indigo-800', 'text-indigo-300');
+        
+        if (type === 'success') {
+            statusEl.classList.add('bg-emerald-950/40', 'border-emerald-800', 'text-emerald-400');
+        } else if (type === 'error') {
+            statusEl.classList.add('bg-red-950/40', 'border-red-800', 'text-red-400');
+        } else {
+            statusEl.classList.add('bg-indigo-950/40', 'border-indigo-800', 'text-indigo-300');
         }
+    }
 
-        if (!name || !phone || !specs || !message) {
-            showStatus('⚠️ Please fill out all required form fields before dispatching your ticket.', 'error');
+    function getFormData() {
+        return {
+            name: document.getElementById('clientName').value.trim(),
+            phone: document.getElementById('clientPhone').value.trim(),
+            service: document.getElementById('serviceType').value,
+            specs: document.getElementById('clientSpecs').value.trim(),
+            message: document.getElementById('clientMessage').value.trim()
+        };
+    }
+
+    // 1. WhatsApp Handler
+    function sendToWhatsApp() {
+        const data = getFormData();
+
+        if (!data.name || !data.phone || !data.specs || !data.message) {
+            showStatus('⚠️ Please fill out all required form fields before sending via WhatsApp.', 'error');
             return;
         }
 
-        submitBtn.disabled = true;
-        submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
-        showStatus('⏳ Dispatching ticket to Discord & preparing WhatsApp...', 'info');
-
-        let discordSuccess = false;
+        const whatsappNumber = "18624367086";
+        const text = `*New ITechRU Service Ticket*%0A%0A*Name:* ${encodeURIComponent(data.name)}%0A*Contact:* ${encodeURIComponent(data.phone)}%0A*Service:* ${encodeURIComponent(data.service)}%0A*Specs:* ${encodeURIComponent(data.specs)}%0A*Issue:* ${encodeURIComponent(data.message)}`;
         
+        try {
+            const win = window.open(`https://wa.me/${whatsappNumber}?text=${text}`, '_blank');
+            if (!win) throw new Error('Popup blocked');
+            showStatus('✅ WhatsApp opened successfully with your ticket details!', 'success');
+        } catch (err) {
+            showStatus('❌ Error opening WhatsApp. Please call or message direct at 862-436-7086.', 'error');
+        }
+    }
+
+    // 2. Discord Webhook Handler
+    async function sendToDiscord() {
+        const data = getFormData();
+        const discordBtn = document.getElementById('discordBtn');
+
+        if (!data.name || !data.phone || !data.specs || !data.message) {
+            showStatus('⚠️ Please fill out all required form fields before sending to Discord.', 'error');
+            return;
+        }
+
         // 🔹 PASTE YOUR DISCORD WEBHOOK URL BELOW INSIDE THE QUOTES 🔹
         const discordWebhookUrl = "https://discord.com/api/webhooks/1525528528504885410/BGvNyfjTUWoflTtoBbI7Dljg4p-I6ku9jL2x8lVJkUpnfSLPws0YXxFctkzUMDl6Tj3E";
 
-        if (discordWebhookUrl && discordWebhookUrl !== "https://discord.com/api/webhooks/1525528528504885410/BGvNyfjTUWoflTtoBbI7Dljg4p-I6ku9jL2x8lVJkUpnfSLPws0YXxFctkzUMDl6Tj3E") {
-            const discordPayload = {
-                content: `🚨 **New ITechRU Support Ticket!**\n` +
-                         `• **Name:** ${name}\n` +
-                         `• **Contact Number:** ${phone}\n` +
-                         `• **Service:** ${service}\n` +
-                         `• **Specs:** ${specs}\n` +
-                         `• **Issue:** ${message}`
-            };
-
-            try {
-                const response = await fetch(discordWebhookUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(discordPayload)
-                });
-
-                if (response.ok) {
-                    discordSuccess = true;
-                } else {
-                    console.warn(`Discord webhook returned status ${response.status}`);
-                }
-            } catch (networkError) {
-                console.error('Discord network error caught:', networkError);
-            }
+        if (!discordWebhookUrl || discordWebhookUrl === "https://discord.com/api/webhooks/1525528528504885410/BGvNyfjTUWoflTtoBbI7Dljg4p-I6ku9jL2x8lVJkUpnfSLPws0YXxFctkzUMDl6Tj3E") {
+            showStatus('⚠️ Discord Webhook URL is not configured in the code yet.', 'error');
+            return;
         }
 
-        try {
-            const whatsappNumber = "18624367086";
-            const text = `*New ITechRU Service Ticket*%0A%0A*Name:* ${encodeURIComponent(name)}%0A*Contact:* ${encodeURIComponent(phone)}%0A*Service:* ${encodeURIComponent(service)}%0A*Specs:* ${encodeURIComponent(specs)}%0A*Issue:* ${encodeURIComponent(message)}`;
-            
-            const win = window.open(`https://wa.me/${whatsappNumber}?text=${text}`, '_blank');
-            if (!win) {
-                throw new Error('Popup blocked by browser');
-            }
+        discordBtn.disabled = true;
+        discordBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        showStatus('⏳ Dispatching ticket notification to Discord...', 'info');
 
-            if (discordSuccess) {
-                showStatus('✅ Ticket dispatched successfully to Discord & WhatsApp!', 'success');
+        const discordPayload = {
+            content: `🚨 **New ITechRU Support Ticket!**\n` +
+                     `• **Name:** ${data.name}\n` +
+                     `• **Contact Number:** ${data.phone}\n` +
+                     `• **Service:** ${data.service}\n` +
+                     `• **Specs:** ${data.specs}\n` +
+                     `• **Issue:** ${data.message}`
+        };
+
+        try {
+            const response = await fetch(discordWebhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(discordPayload)
+            });
+
+            if (response.ok) {
+                showStatus('✅ Ticket successfully sent to Discord!', 'success');
             } else {
-                showStatus('✅ WhatsApp opened successfully! (Configure Discord webhook URL in code to enable Discord alerts)', 'success');
+                throw new Error(`Discord API error: Status ${response.status}`);
             }
         } catch (err) {
-            console.error('WhatsApp redirect error caught:', err);
-            showStatus('❌ Error opening WhatsApp. Please call or message direct at 862-436-7086.', 'error');
+            console.error('Discord webhook error:', err);
+            showStatus('❌ Failed to send to Discord. Check console for details.', 'error');
         } finally {
-            submitBtn.disabled = false;
-            submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            discordBtn.disabled = false;
+            discordBtn.classList.remove('opacity-50', 'cursor-not-allowed');
         }
     }
     </script>
@@ -278,4 +291,4 @@ sudo systemctl restart apache2
 echo "[*] Verifying Apache service status..."
 sudo systemctl status apache2 --no-pager
 
-echo "[*] Deployment complete! ITechRU is live at https://itechru.us with Discord notifications and error handling."
+echo "[*] Deployment complete! ITechRU updated with separated WhatsApp and Discord buttons at https://itechru.us"
