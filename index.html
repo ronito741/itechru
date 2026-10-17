@@ -116,16 +116,21 @@
                     <div>
                         <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Your Full Name</label>
                         <input type="text" id="clientName" name="name" required class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition" placeholder="John Doe" autocomplete="name">
-                        <p id="error-clientName" class="text-xs text-red-400 mt-1.5 hidden flex items-center gap-1">⚠️ <span class="msg">Invalid syntax: Please enter a valid name.</span></p>
+                        <p id="error-clientName" class="text-xs text-red-400 mt-1.5 hidden flex items-center gap-1">⚠️ <span class="msg">Invalid syntax</span></p>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Preferred Contact Number</label>
-                        <input type="tel" id="clientPhone" name="phone" required class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition" placeholder="(862) 555-0199" maxlength="14" autocomplete="tel">
-                        <p id="error-clientPhone" class="text-xs text-red-400 mt-1.5 hidden flex items-center gap-1">⚠️ <span class="msg">Invalid syntax: Enter a 10-digit phone number.</span></p>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Email Address</label>
+                        <input type="email" id="clientEmail" name="email" required class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition" placeholder="john@example.com" autocomplete="email">
+                        <p id="error-clientEmail" class="text-xs text-red-400 mt-1.5 hidden flex items-center gap-1">⚠️ <span class="msg">Invalid syntax</span></p>
                     </div>
                 </div>
 
                 <div class="grid sm:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Preferred Contact Number</label>
+                        <input type="tel" id="clientPhone" name="phone" required class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition" placeholder="(862) 555-0199" maxlength="14" autocomplete="tel">
+                        <p id="error-clientPhone" class="text-xs text-red-400 mt-1.5 hidden flex items-center gap-1">⚠️ <span class="msg">Invalid syntax</span></p>
+                    </div>
                     <div>
                         <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Service Type</label>
                         <select id="serviceType" name="service_type" class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition">
@@ -135,17 +140,18 @@
                             <option value="Emergency Support">On-Site Emergency Support</option>
                         </select>
                     </div>
-                    <div>
-                        <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">System Specs / Operating System</label>
-                        <input type="text" id="clientSpecs" name="os_specs" required class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition" placeholder="Windows 11 / Custom Desktop / Ubuntu Server">
-                        <p id="error-clientSpecs" class="text-xs text-red-400 mt-1.5 hidden flex items-center gap-1">⚠️ <span class="msg">Invalid syntax: Please specify your system specs.</span></p>
-                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">System Specs / Operating System</label>
+                    <input type="text" id="clientSpecs" name="os_specs" required class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition" placeholder="Windows 11 / Custom Desktop / Ubuntu Server">
+                    <p id="error-clientSpecs" class="text-xs text-red-400 mt-1.5 hidden flex items-center gap-1">⚠️ <span class="msg">Invalid syntax</span></p>
                 </div>
 
                 <div>
                     <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Describe Issue / Error Details</label>
                     <textarea id="clientMessage" name="message" rows="4" required class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition" placeholder="Explain the hardware failure, network drop, or boot error..."></textarea>
-                    <p id="error-clientMessage" class="text-xs text-red-400 mt-1.5 hidden flex items-center gap-1">⚠️ <span class="msg">Invalid syntax: Description must be at least 10 characters long.</span></p>
+                    <p id="error-clientMessage" class="text-xs text-red-400 mt-1.5 hidden flex items-center gap-1">⚠️ <span class="msg">Invalid syntax</span></p>
                 </div>
 
                 <!-- Action Button -->
@@ -170,7 +176,7 @@
         </div>
     </footer>
 
-    <!-- Advanced Syntax & Input Error Handler Script -->
+    <!-- Advanced Syntax & Input Type Validation Script -->
     <script>
     // Phone Number Formatting Mask Handler
     const phoneInput = document.getElementById('clientPhone');
@@ -190,8 +196,8 @@
         validateField(e.target);
     });
 
-    // Real-time syntax event listeners
-    const fields = ['clientName', 'clientPhone', 'clientSpecs', 'clientMessage'];
+    // Real-time syntax event listeners for all input types
+    const fields = ['clientName', 'clientEmail', 'clientPhone', 'clientSpecs', 'clientMessage'];
     fields.forEach(id => {
         const el = document.getElementById(id);
         el.addEventListener('blur', () => validateField(el));
@@ -213,20 +219,26 @@
             isValid = false;
             customMsg = 'This field cannot be empty.';
         } else if (el.id === 'clientName') {
-            // Check for valid name syntax (letters and spaces only, min 2 chars)
             if (val.length < 2 || !/^[a-zA-Z\s'-]+$/.test(val)) {
                 isValid = false;
                 customMsg = 'Invalid syntax: Use alphabetical characters only.';
             }
+        } else if (el.id === 'clientEmail') {
+            // Strict email input type syntax check using standard RFC regex
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(val)) {
+                isValid = false;
+                customMsg = 'Invalid email syntax (e.g., name@domain.com).';
+            }
         } else if (el.id === 'clientPhone') {
             if (val.replace(/\D/g, '').length < 10) {
                 isValid = false;
-                customMsg = 'Invalid syntax: Please enter a complete 10-digit number.';
+                customMsg = 'Invalid syntax: Enter a complete 10-digit number.';
             }
         } else if (el.id === 'clientSpecs') {
             if (val.length < 3) {
                 isValid = false;
-                customMsg = 'Invalid syntax: Please specify valid system/OS specs.';
+                customMsg = 'Invalid syntax: Specify valid system/OS specs.';
             }
         } else if (el.id === 'clientMessage') {
             if (val.length < 10) {
