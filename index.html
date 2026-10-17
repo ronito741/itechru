@@ -1,3 +1,16 @@
+#!/bin/bash
+# ==============================================================================
+# ITechRU Production Deployment Script (WhatsApp + Discord Webhook)
+# Target: /var/www/html/index.html
+# ==============================================================================
+
+set -e
+
+echo "[*] Creating web root directory if missing..."
+sudo mkdir -p /var/www/html
+
+echo "[*] Writing updated index.html with Discord Webhook and WhatsApp integration..."
+sudo tee /var/www/html/index.html > /dev/null << 'EOF'
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
@@ -104,7 +117,7 @@
         <div class="bg-card border border-gray-800 rounded-2xl p-8 sm:p-10 shadow-2xl">
             <div class="text-center mb-8">
                 <h3 class="text-2xl font-bold mb-2">Submit a Service Request</h3>
-                <p class="text-sm text-gray-400">Complete the details below to dispatch your ticket instantly via WhatsApp.</p>
+                <p class="text-sm text-gray-400">Complete the details below to dispatch your ticket instantly via WhatsApp and Discord.</p>
             </div>
 
             <div id="triageForm" class="space-y-5">
@@ -142,7 +155,7 @@
 
                 <div>
                     <button type="button" onclick="sendToWhatsApp()" class="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 text-base">
-                        💬 Dispatch Ticket to WhatsApp
+                        💬 Dispatch Ticket to WhatsApp & Discord
                     </button>
                 </div>
             </div>
@@ -158,9 +171,9 @@
         </div>
     </footer>
 
-    <!-- Script to Handle WhatsApp Routing -->
+    <!-- Script to Handle Discord Webhook & WhatsApp Routing -->
     <script>
-    function sendToWhatsApp() {
+    async function sendToWhatsApp() {
         const name = document.getElementById('clientName').value;
         const phone = document.getElementById('clientPhone').value;
         const service = document.getElementById('serviceType').value;
@@ -168,15 +181,54 @@
         const message = document.getElementById('clientMessage').value;
 
         if (!name || !phone || !specs || !message) {
-            alert('Please fill out all form fields before dispatching via WhatsApp.');
+            alert('Please fill out all form fields before dispatching your ticket.');
             return;
         }
 
+        // 1. DISCORD WEBHOOK INTEGRATION
+        // Replace the placeholder below with your actual Discord Webhook URL if needed
+        const discordWebhookUrl = "https://discord.com/api/webhooks/1525528528504885410/BGvNyfjTUWoflTtoBbI7Dljg4p-I6ku9jL2x8lVJkUpnfSLPws0YXxFctkzUMDl6Tj3E";
+        
+        if (discordWebhookUrl && discordWebhookUrl !== "https://discord.com/api/webhooks/1525528528504885410/BGvNyfjTUWoflTtoBbI7Dljg4p-I6ku9jL2x8lVJkUpnfSLPws0YXxFctkzUMDl6Tj3E") {
+            const discordPayload = {
+                content: `🚨 **New ITechRU Support Ticket!**\n` +
+                         `• **Name/Phone:** ${name}\n` +
+                         `• **Contact Number:** ${phone}\n` +
+                         `• **Service:** ${service}\n` +
+                         `• **Specs:** ${specs}\n` +
+                         `• **Issue:** ${message}`
+            };
+
+            try {
+                await fetch(discordWebhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(discordPayload)
+                });
+            } catch (err) {
+                console.error('Discord notification failed:', err);
+            }
+        }
+
+        // 2. WHATSAPP REDIRECT
         const whatsappNumber = "18624367086";
-        const text = `*New ITechRU Service Ticket*%0A%0A*Name:* ${encodeURIComponent(name)}%0A*Phone:* ${encodeURIComponent(phone)}%0A*Service:* ${encodeURIComponent(service)}%0A*Specs:* ${encodeURIComponent(specs)}%0A*Issue:* ${encodeURIComponent(message)}`;
+        const text = `*New ITechRU Service Ticket*%0A%0A*Name/Phone:* ${encodeURIComponent(name)}%0A*Contact:* ${encodeURIComponent(phone)}%0A*Service:* ${encodeURIComponent(service)}%0A*Specs:* ${encodeURIComponent(specs)}%0A*Issue:* ${encodeURIComponent(message)}`;
         
         window.open(`https://wa.me/${whatsappNumber}?text=${text}`, '_blank');
     }
     </script>
 </body>
 </html>
+EOF
+
+echo "[*] Setting correct file permissions..."
+sudo chown -R www-data:www-data /var/www/html
+sudo chmod -R 755 /var/www/html
+
+echo "[*] Restarting Apache web server..."
+sudo systemctl restart apache2
+
+echo "[*] Verifying Apache service status..."
+sudo systemctl status apache2 --no-pager
+
+echo "[*] Deployment complete! ITechRU updated with Discord webhook support at https://itechru.us"
