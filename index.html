@@ -1,76 +1,165 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IT Tech Secure | Remote Diagnostics & Triage</title>
+    <title>ITechRU | Professional IT Support & Hardware Diagnostics - New Jersey</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darker: '#090a0f',
+                        card: '#12141c',
+                        accent: '#2563eb'
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="bg-gray-950 text-gray-100 font-sans antialiased">
+<body class="bg-darker text-gray-100 font-sans antialiased selection:bg-blue-600 selection:text-white">
 
-    <!-- Header Section -->
-    <header class="border-b border-gray-800 bg-gray-900/50 backdrop-blur sticky top-0 z-50">
-        <div class="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-xl font-bold tracking-wider text-blue-400">IT TECH SECURE</h1>
-            <div class="text-sm text-gray-400">
-                Direct Line: <span class="text-white font-semibold">862-436-7086</span>
+    <!-- Top Info Bar -->
+    <div class="bg-blue-950/40 border-b border-blue-900/50 py-2 px-4 text-xs">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 text-gray-300">
+            <div class="flex items-center gap-4">
+                <span>📍 Serving Newark & Northern New Jersey</span>
+                <span>✉️ <a href="mailto:ronito741@gmail.com" class="hover:text-blue-400 transition">ronito741@gmail.com</a></span>
             </div>
+            <div class="font-medium text-blue-400">
+                Direct Dispatch Line: <span class="text-white font-bold">862-436-7086</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header / Navbar -->
+    <header class="border-b border-gray-800 bg-card/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="h-9 w-9 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-lg text-white shadow-lg shadow-blue-600/30">
+                    IT
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold tracking-wider text-white">ITechRU</h1>
+                    <p class="text-xs text-gray-400">Enterprise & Residential Support</p>
+                </div>
+            </div>
+            <a href="#request-section" class="hidden sm:inline-block px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold rounded-lg transition shadow-md">
+                Submit Request
+            </a>
         </div>
     </header>
 
-    <!-- Main Content Container -->
-    <main class="max-w-3xl mx-auto px-6 py-12">
-        
-        <!-- Hero / Service Intro -->
-        <div class="text-center mb-10">
-            <h2 class="text-3xl font-extrabold mb-3">Remote IT Triage & Diagnostics</h2>
-            <p class="text-gray-400 max-w-xl mx-auto">
-                Submit your system specs and error details below for professional expert review. Instant webhook dispatch to our engineering desk.
+    <!-- Hero Section -->
+    <section class="max-w-6xl mx-auto px-6 py-16 text-center lg:text-left grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+            <div class="inline-flex items-center gap-2 bg-blue-950/80 border border-blue-800 text-blue-300 px-3 py-1 rounded-full text-xs font-semibold mb-6">
+                <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span> Available for On-Site & Remote Triage
+            </div>
+            <h2 class="text-4xl sm:text-5xl font-extrabold tracking-tight mb-6 leading-tight">
+                Professional Hardware Repairs & <span class="text-blue-500">Network Infrastructure</span>
+            </h2>
+            <p class="text-gray-400 text-lg mb-8 leading-relaxed">
+                Expert server diagnostics, custom hardware troubleshooting, and advanced network solutions based right out of New Jersey. Fast, reliable, and secure IT engineering.
             </p>
-            <div class="mt-4 inline-block bg-blue-950/60 border border-blue-800 text-blue-300 px-4 py-1.5 rounded-full text-sm font-medium">
-                Free Request Submission
+            <div class="flex flex-wrap justify-center lg:justify-start gap-4">
+                <a href="#request-section" class="px-6 py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl shadow-lg shadow-blue-600/20 transition">
+                    Open Support Ticket
+                </a>
+                <a href="tel:8624367086" class="px-6 py-3.5 bg-gray-900 hover:bg-gray-800 border border-gray-800 text-gray-200 font-bold rounded-xl transition">
+                    Call 862-436-7086
+                </a>
             </div>
         </div>
 
-        <!-- Triage Form Card -->
-        <div class="bg-gray-900 border border-gray-800 rounded-xl p-8 shadow-2xl">
+        <!-- Service Highlights Grid -->
+        <div class="grid sm:grid-cols-2 gap-4">
+            <div class="bg-card border border-gray-800/80 p-6 rounded-2xl shadow-xl">
+                <div class="text-blue-500 text-2xl mb-3">🖥️</div>
+                <h3 class="font-bold text-lg mb-2">Hardware Repairs</h3>
+                <p class="text-sm text-gray-400">Desktop & server component diagnostics, motherboard testing, and hardware replacement.</p>
+            </div>
+            <div class="bg-card border border-gray-800/80 p-6 rounded-2xl shadow-xl">
+                <div class="text-blue-500 text-2xl mb-3">🌐</div>
+                <h3 class="font-bold text-lg mb-2">Network Infrastructure</h3>
+                <p class="text-sm text-gray-400">Packet analysis, router configuration, Wi-Fi security hardening, and firewall tuning.</p>
+            </div>
+            <div class="bg-card border border-gray-800/80 p-6 rounded-2xl shadow-xl">
+                <div class="text-blue-500 text-2xl mb-3">🔍</div>
+                <h3 class="font-bold text-lg mb-2">Remote Triage</h3>
+                <p class="text-sm text-gray-400">Crash dump analysis, OS error troubleshooting, and remote technical guidance.</p>
+            </div>
+            <div class="bg-card border border-gray-800/80 p-6 rounded-2xl shadow-xl">
+                <div class="text-blue-500 text-2xl mb-3">⚡</div>
+                <h3 class="font-bold text-lg mb-2">Emergency Support</h3>
+                <p class="text-sm text-gray-400">Priority local call-outs and rapid response troubleshooting across New Jersey.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Request Form Section -->
+    <section id="request-section" class="max-w-3xl mx-auto px-6 py-12">
+        <div class="bg-card border border-gray-800 rounded-2xl p-8 sm:p-10 shadow-2xl">
+            <div class="text-center mb-8">
+                <h3 class="text-2xl font-bold mb-2">Submit a Service Request</h3>
+                <p class="text-sm text-gray-400">Fill out your system details below. Your ticket routes directly to our engineering desk.</p>
+            </div>
+
             <form id="triageForm" class="space-y-5">
-                <div>
-                    <label class="block text-sm font-medium text-gray-300 mb-1">Your Name & Phone</label>
-                    <input type="text" name="name" required class="w-full p-3 bg-gray-950 border border-gray-800 rounded-lg text-white focus:outline-none focus:border-blue-500" placeholder="John Doe / 555-0199">
+                <div class="grid sm:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Your Name & Phone</label>
+                        <input type="text" name="name" required class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-blue-500 transition" placeholder="John Doe / 862-555-0199">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Email Address</label>
+                        <input type="email" name="email" required class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-blue-500 transition" placeholder="client@example.com">
+                    </div>
+                </div>
+
+                <div class="grid sm:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Service Type</label>
+                        <select name="service_type" class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-blue-500 transition">
+                            <option value="Hardware Repair">Hardware Repair & Diagnostics</option>
+                            <option value="Network Infrastructure">Network Infrastructure / Wi-Fi</option>
+                            <option value="Remote Triage">Remote Triage & Software</option>
+                            <option value="Emergency Support">On-Site Emergency Support</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">System Specs / Operating System</label>
+                        <input type="text" name="os_specs" required class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-blue-500 transition" placeholder="Windows 11 / Custom Desktop / Ubuntu Server">
+                    </div>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-300 mb-1">Email Address</label>
-                    <input type="email" name="email" required class="w-full p-3 bg-gray-950 border border-gray-800 rounded-lg text-white focus:outline-none focus:border-blue-500" placeholder="client@example.com">
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Describe Issue / Error Details</label>
+                    <textarea name="message" rows="4" required class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-blue-500 transition" placeholder="Explain the hardware failure, network drop, or boot error..."></textarea>
                 </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-300 mb-1">System Specs / Operating System</label>
-                    <input type="text" name="os_specs" required class="w-full p-3 bg-gray-950 border border-gray-800 rounded-lg text-white focus:outline-none focus:border-blue-500" placeholder="Windows 11 Pro / Ubuntu 24.04 / Custom Rig">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-300 mb-1">Describe the Issue / Error Codes</label>
-                    <textarea name="message" rows="4" required class="w-full p-3 bg-gray-950 border border-gray-800 rounded-lg text-white focus:outline-none focus:border-blue-500" placeholder="Blue screen on boot, network card dropping packets, high CPU utilization..."></textarea>
-                </div>
-
-                <button type="submit" id="submitBtn" class="w-full py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg transition duration-200 shadow-lg">
-                    Submit Request
+                <button type="submit" id="submitBtn" class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition shadow-lg shadow-blue-600/20">
+                    Transmit Ticket to Engineer
                 </button>
                 
                 <p id="formStatus" class="text-sm text-center mt-3 font-medium"></p>
             </form>
         </div>
-
-    </main>
+    </section>
 
     <!-- Footer -->
-    <footer class="text-center py-8 text-xs text-gray-600 border-t border-gray-900 mt-12">
-        &copy; 2026 IT Tech Secure. Newark, New Jersey. All rights reserved.
+    <footer class="border-t border-gray-900 bg-card/40 mt-20 py-10 text-center text-xs text-gray-500">
+        <div class="max-w-6xl mx-auto px-6 space-y-3">
+            <p class="font-semibold text-gray-400">ITechRU &bull; Newark, New Jersey</p>
+            <p>Direct Contact: <a href="mailto:ronito741@gmail.com" class="text-blue-400 hover:underline">ronito741@gmail.com</a> | Phone: <a href="tel:8624367086" class="text-white hover:underline">862-436-7086</a></p>
+            <p class="text-gray-600">&copy; 2026 ITechRU. All rights reserved.</p>
+        </div>
     </footer>
 
-    <!-- Script to Handle Discord Webhook (No Payments) -->
+    <!-- Script to Handle Discord Webhook -->
     <script>
     document.getElementById('triageForm').addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -81,22 +170,23 @@
         const btn = document.getElementById('submitBtn');
 
         btn.disabled = true;
-        btn.textContent = 'Sending Request...';
+        btn.textContent = 'Transmitting Ticket...';
 
         try {
             // REPLACE WITH YOUR ACTUAL DISCORD WEBHOOK URL
-            const discordWebhookUrl = 'https://discord.com/api/webhooks/1525528528504885410/BGvNyfjTUWoflTtoBbI7Dljg4p-I6ku9jL2x8lVJkUpnfSLPws0YXxFctkzUMDl6Tj3E'; 
+            const discordWebhookUrl = 'YOUR_DISCORD_WEBHOOK_URL_HERE'; 
             
             const discordPayload = {
-                content: "🚨 **New Free IT Request Received!**",
+                content: "🚨 **New ITechRU Service Ticket Received!**",
                 embeds: [{
-                    title: "Client Triage Submission",
+                    title: "Client Request: " + data.service_type,
                     color: 3447003, // Blue
                     fields: [
                         { name: "👤 Client Name & Phone", value: data.name, inline: true },
                         { name: "📧 Email", value: data.email, inline: true },
-                        { name: "💻 System / OS", value: data.os_specs, inline: false },
-                        { name: "📝 Issue Description", value: data.message, inline: false }
+                        { name: "🛠️ Service Category", value: data.service_type, inline: true },
+                        { name: "💻 System Specs", value: data.os_specs, inline: false },
+                        { name: "📝 Issue Details", value: data.message, inline: false }
                     ],
                     timestamp: new Date().toISOString()
                 }]
@@ -112,17 +202,17 @@
                 throw new Error('Discord webhook dispatch failed');
             }
 
-            status.textContent = 'Request submitted successfully! We will contact you shortly.';
+            status.textContent = 'Ticket submitted successfully! We will contact you shortly.';
             status.className = 'text-sm text-center mt-3 text-green-400 font-medium';
             form.reset();
             btn.disabled = false;
-            btn.textContent = 'Submit Request';
+            btn.textContent = 'Transmit Ticket to Engineer';
 
         } catch (error) {
             status.textContent = 'Submission error. Please call directly at 862-436-7086.';
             status.className = 'text-sm text-center mt-3 text-red-400 font-medium';
             btn.disabled = false;
-            btn.textContent = 'Submit Request';
+            btn.textContent = 'Transmit Ticket to Engineer';
         }
     });
     </script>
