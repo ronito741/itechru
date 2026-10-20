@@ -139,18 +139,18 @@
         </div>
     </section>
 
-    <!-- Flexible Custom Cost & Part Estimator Section -->
+    <!-- Flexible Custom Cost & Part Estimator Section with Calculation Button -->
     <section id="estimator-section" class="max-w-4xl mx-auto px-6 py-8">
         <div class="bg-card/90 border border-gray-800 rounded-2xl p-6 sm:p-8 shadow-xl">
             <div class="text-center sm:text-left mb-6">
                 <h3 class="text-xl font-bold mb-1">🛠️ Flexible Job Cost Estimator</h3>
-                <p class="text-xs text-gray-400">Select your repair type and enter the exact part cost to calculate total customer price.</p>
+                <p class="text-xs text-gray-400">Select your repair type, enter the part cost, and click calculate to view the total price.</p>
             </div>
             
             <div class="grid sm:grid-cols-3 gap-4 mb-6">
                 <div>
                     <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Repair Job Type</label>
-                    <select id="calcJob" onchange="updateFlexibleEstimator()" class="w-full bg-darker border border-gray-700 text-white text-sm p-3 rounded-xl focus:outline-none focus:border-indigo-500">
+                    <select id="calcJob" class="w-full bg-darker border border-gray-700 text-white text-sm p-3 rounded-xl focus:outline-none focus:border-indigo-500">
                         <option value="ssd">🚀 SSD Upgrade ($50 Labor)</option>
                         <option value="screen">💻 Screen Replacement ($75 Labor)</option>
                         <option value="keyboard">⌨️ Keyboard Fix ($60 Labor)</option>
@@ -160,15 +160,22 @@
                 </div>
                 <div>
                     <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Part Cost ($)</label>
-                    <input type="number" id="calcPartCost" min="0" value="45" oninput="updateFlexibleEstimator()" class="w-full bg-darker border border-gray-700 text-white text-sm p-3 rounded-xl focus:outline-none focus:border-indigo-500" placeholder="e.g., 45">
+                    <input type="number" id="calcPartCost" min="0" value="45" class="w-full bg-darker border border-gray-700 text-white text-sm p-3 rounded-xl focus:outline-none focus:border-indigo-500" placeholder="e.g., 45">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Urgency Speed</label>
-                    <select id="calcUrgency" onchange="updateFlexibleEstimator()" class="w-full bg-darker border border-gray-700 text-white text-sm p-3 rounded-xl focus:outline-none focus:border-indigo-500">
+                    <select id="calcUrgency" class="w-full bg-darker border border-gray-700 text-white text-sm p-3 rounded-xl focus:outline-none focus:border-indigo-500">
                         <option value="standard">Standard (24-48h)</option>
                         <option value="rush">Rush Same-Day (+$25)</option>
                     </select>
                 </div>
+            </div>
+
+            <!-- Calculation Action Button -->
+            <div class="mb-6">
+                <button type="button" onclick="calculateCost()" class="w-full sm:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm rounded-xl transition shadow-lg shadow-blue-600/20">
+                    🧮 Calculate Price Quote
+                </button>
             </div>
 
             <!-- Calculated Breakdown Box -->
@@ -250,4 +257,388 @@
                         <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Select Simple Repair Type</label>
                         <select id="serviceType" name="repair_category" class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition">
                             <option value="Laptop Screen Replacement">💻 Laptop Screen Replacement</option>
-                            <option value="Keyboard
+                            <option value="Keyboard Repair">⌨️ Keyboard Replacement</option>
+                            <option value="SSD Upgrade / Speed Boost">🚀 SSD Upgrade & Speed Boost</option>
+                            <option value="Battery Replacement">🔋 Battery Replacement</option>
+                            <option value="Charging Port Fix">🔌 Charging Port Repair</option>
+                            <option value="Virus / Malware Removal">🛡️ Virus & Malware Removal</option>
+                            <option value="Fan Cleaning / Dust Removal">🧹 Fan Cleaning & Dust Removal</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Device Brand & Model (e.g., HP Laptop, Dell Inspiron)</label>
+                    <input type="text" id="clientSpecs" name="device_model" required class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition" placeholder="e.g., HP Laptop 15-dy2024nr or Dell Inspiron 15">
+                    <p id="error-clientSpecs" class="text-xs text-red-400 mt-1.5 hidden flex items-center gap-1">⚠️ <span class="msg">Invalid syntax</span></p>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Describe What's Wrong With Your Computer</label>
+                    <textarea id="clientMessage" name="issue_description" rows="4" required class="w-full p-3.5 bg-darker border border-gray-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition" placeholder="Tell us what simple fix your computer needs (e.g., cracked screen, extremely slow startup, battery dies quickly)..."></textarea>
+                    <p id="error-clientMessage" class="text-xs text-red-400 mt-1.5 hidden flex items-center gap-1">⚠️ <span class="msg">Invalid syntax</span></p>
+                </div>
+
+                <!-- Action Button -->
+                <div>
+                    <button type="submit" id="submitBtn" class="w-full py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition shadow-lg shadow-indigo-600/20 flex items-center justify-center gap-2 text-base">
+                        💻 Submit Repair Request
+                    </button>
+                </div>
+
+                <!-- Live Status Feedback Area -->
+                <div id="formStatus" class="text-sm text-center font-medium mt-3 hidden p-3 rounded-xl border"></div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Customer Feedback & Testimonials Section (Left Blank / Real Life Ready) -->
+    <section id="reviews-section" class="max-w-4xl mx-auto px-6 py-12 border-t border-gray-900">
+        <div class="text-center mb-8">
+            <h3 class="text-2xl font-bold mb-2">💬 Customer Feedback & Reviews</h3>
+            <p class="text-sm text-gray-400">Have we repaired your computer recently? Leave your honest feedback below!</p>
+        </div>
+
+        <!-- Feedback Submission Card -->
+        <div class="bg-card border border-gray-800 rounded-2xl p-6 sm:p-8 shadow-xl mb-8">
+            <h4 class="font-bold text-lg mb-4 text-indigo-400">Leave Your Review</h4>
+            <form id="feedbackForm" class="space-y-4" novalidate>
+                <!-- Web3Forms Config for Feedback -->
+                <input type="hidden" name="access_key" value="de391c53-f277-466a-b6c8-60184fd3f3e4">
+                <input type="hidden" name="subject" value="⭐ New ITechRU Real Customer Feedback">
+
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Your Full Name</label>
+                        <input type="text" id="feedbackName" name="reviewer_name" required class="w-full p-3 bg-darker border border-gray-800 rounded-xl text-white text-sm focus:outline-none focus:border-indigo-500 transition" placeholder="John Doe" autocomplete="name">
+                        <p id="error-feedbackName" class="text-xs text-red-400 mt-1 hidden"><span class="msg">Invalid syntax</span></p>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Rating</label>
+                        <select name="rating" class="w-full p-3 bg-darker border border-gray-800 rounded-xl text-white text-sm focus:outline-none focus:border-indigo-500 transition">
+                            <option value="5 Stars - Excellent Service">⭐⭐⭐⭐⭐ 5 Stars - Excellent Service</option>
+                            <option value="4 Stars - Very Good">⭐⭐⭐⭐ 4 Stars - Very Good</option>
+                            <option value="3 Stars - Good">⭐⭐⭐ 3 Stars - Good</option>
+                            <option value="2 Stars - Fair">⭐⭐ 2 Stars - Fair</option>
+                            <option value="1 Star - Poor">⭐ 1 Star - Poor</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Your Comments or Experience</label>
+                    <textarea id="feedbackComment" name="comment" rows="3" required class="w-full p-3 bg-darker border border-gray-800 rounded-xl text-white text-sm focus:outline-none focus:border-indigo-500 transition" placeholder="Tell us about how your repair went..."></textarea>
+                    <p id="error-feedbackComment" class="text-xs text-red-400 mt-1 hidden"><span class="msg">Comment is too short</span></p>
+                </div>
+                <div>
+                    <button type="submit" id="feedbackBtn" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm rounded-xl transition shadow-lg shadow-emerald-600/20">
+                        Submit Review
+                    </button>
+                </div>
+                <div id="feedbackStatus" class="text-sm text-center font-medium mt-2 hidden p-3 rounded-xl border"></div>
+            </form>
+        </div>
+
+        <!-- Blank State Notice for Real Life Reviews -->
+        <div class="bg-card/40 border border-dashed border-gray-800 p-8 rounded-2xl text-center">
+            <p class="text-gray-400 text-sm">No reviews posted yet. Be the first customer to leave your feedback above!</p>
+        </div>
+    </section>
+
+    <!-- Service Area Footer Note -->
+    <div class="max-w-4xl mx-auto px-6 py-6 text-center border-t border-gray-900 text-gray-400 text-xs">
+        <p class="font-semibold text-gray-300 mb-1">Serving Northern New Jersey Communities:</p>
+        <p>Newark &bull; Elizabeth &bull; Jersey City &bull; Paterson &bull; Edison &bull; Woodbridge &bull; Passaic &bull; Union &bull; Irvington &bull; East Orange &bull; and surrounding areas.</p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-900 bg-card/40 py-10 text-center text-xs text-gray-500">
+        <div class="max-w-6xl mx-auto px-6 space-y-3">
+            <p class="font-semibold text-gray-400">ITechRU &bull; Newark, New Jersey</p>
+            <p>Direct Phone / WhatsApp: <a href="tel:8624367086" class="text-white hover:underline">862-436-7086</a> | Email: <a href="mailto:ronito741@gmail.com" class="text-white hover:underline">ronito741@gmail.com</a> <button onclick="copyToClipboard('ronito741@gmail.com', 'Email')" class="text-gray-400 hover:text-white bg-gray-800/60 px-1 py-0.5 rounded text-[10px] transition">📋</button></p>
+            <p class="text-gray-600">&copy; 2026 ITechRU. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Fixed Mobile CTA Bar -->
+    <div class="sm:hidden fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur border-t border-gray-800 p-3 z-50 flex gap-3 shadow-2xl">
+        <a href="tel:8624367086" class="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-lg text-center flex items-center justify-center gap-1.5 shadow">
+            📞 Call Now
+        </a>
+        <a href="https://wa.me/18624367086?text=Hello%20ITechRU,%20I%20need%20help%20repairing%20my%20computer." target="_blank" class="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-lg text-center flex items-center justify-center gap-1.5 shadow">
+            💬 WhatsApp
+        </a>
+    </div>
+
+    <!-- Google Translate Script (Restricted to English & Spanish) -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,es',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <!-- Helper Functions & Validation Script -->
+    <script>
+    function copyToClipboard(text, label) {
+        navigator.clipboard.writeText(text).then(() => {
+            alert(label + " copied to clipboard!");
+        });
+    }
+
+    // Flexible Estimator Function triggered by the Calculate button
+    function calculateCost() {
+        const jobType = document.getElementById('calcJob').value;
+        const partCostInput = parseFloat(document.getElementById('calcPartCost').value) || 0;
+        const urgency = document.getElementById('calcUrgency').value;
+        
+        const resPartDisplay = document.getElementById('resPartDisplay');
+        const resLaborDisplay = document.getElementById('resLaborDisplay');
+        const resTotalPrice = document.getElementById('resTotalPrice');
+
+        const laborRates = {
+            'ssd': 50,
+            'screen': 75,
+            'keyboard': 60,
+            'battery': 45,
+            'software': 50
+        };
+
+        let baseLabor = laborRates[jobType] || 50;
+        let rushFee = (urgency === 'rush') ? 25 : 0;
+        let totalLaborAndFees = baseLabor + rushFee;
+        let grandTotal = partCostInput + totalLaborAndFees;
+
+        resPartDisplay.textContent = `$${partCostInput.toFixed(2)}`;
+        resLaborDisplay.textContent = `$${totalLaborAndFees.toFixed(2)}` + (rushFee > 0 ? ' (incl. rush)' : '');
+        resTotalPrice.textContent = `$${grandTotal.toFixed(2)}`;
+    }
+
+    // Initialize on load with default values
+    window.addEventListener('DOMContentLoaded', calculateCost);
+
+    const nameInput = document.getElementById('clientName');
+    nameInput.addEventListener('keypress', function (e) {
+        const char = String.fromCharCode(e.which || e.keyCode);
+        if (!/^[a-zA-Z\s'-]+$/.test(char)) {
+            e.preventDefault();
+        }
+    });
+    nameInput.addEventListener('input', function (e) {
+        const cursorPosition = e.target.selectionStart;
+        const sanitizedVal = e.target.value.replace(/[^a-zA-Z\s'-]/g, '');
+        if (e.target.value !== sanitizedVal) {
+            e.target.value = sanitizedVal;
+            try { e.target.setSelectionRange(cursorPosition - 1, cursorPosition - 1); } catch (err) {}
+        }
+        validateField(e.target);
+    });
+
+    const feedbackNameInput = document.getElementById('feedbackName');
+    feedbackNameInput.addEventListener('keypress', function (e) {
+        const char = String.fromCharCode(e.which || e.keyCode);
+        if (!/^[a-zA-Z\s'-]+$/.test(char)) {
+            e.preventDefault();
+        }
+    });
+    feedbackNameInput.addEventListener('input', function (e) {
+        const cursorPosition = e.target.selectionStart;
+        const sanitizedVal = e.target.value.replace(/[^a-zA-Z\s'-]/g, '');
+        if (e.target.value !== sanitizedVal) {
+            e.target.value = sanitizedVal;
+            try { e.target.setSelectionRange(cursorPosition - 1, cursorPosition - 1); } catch (err) {}
+        }
+    });
+
+    const phoneInput = document.getElementById('clientPhone');
+    phoneInput.addEventListener('input', function (e) {
+        let inputVal = e.target.value.replace(/\D/g, '').substring(0, 10);
+        let formattedVal = '';
+        if (inputVal.length > 6) {
+            formattedVal = `(${inputVal.substring(0, 3)}) ${inputVal.substring(3, 6)}-${inputVal.substring(6)}`;
+        } else if (inputVal.length > 3) {
+            formattedVal = `(${inputVal.substring(0, 3)}) ${inputVal.substring(3)}`;
+        } else if (inputVal.length > 0) {
+            formattedVal = `(${inputVal}`;
+        }
+        e.target.value = formattedVal;
+        validateField(e.target);
+    });
+
+    const fields = ['clientName', 'clientEmail', 'clientPhone', 'clientSpecs', 'clientMessage'];
+    fields.forEach(id => {
+        const el = document.getElementById(id);
+        el.addEventListener('blur', () => validateField(el));
+        el.addEventListener('input', () => {
+            if (el.classList.contains('border-red-500')) { validateField(el); }
+        });
+    });
+
+    function validateField(el) {
+        const container = document.getElementById(`error-${el.id}`);
+        const msgSpan = container.querySelector('.msg');
+        let isValid = true;
+        let customMsg = '';
+        const val = el.value.trim();
+
+        if (!val) {
+            isValid = false;
+            customMsg = 'This field cannot be empty.';
+        } else if (el.id === 'clientName') {
+            const nameRegex = /^[a-zA-Z\s'-]+$/;
+            if (val.length < 2) {
+                isValid = false;
+                customMsg = 'Name must be at least 2 characters long.';
+            } else if (!nameRegex.test(val)) {
+                isValid = false;
+                customMsg = 'Invalid syntax: Numbers and special symbols are not allowed.';
+            }
+        } else if (el.id === 'clientEmail') {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(val)) {
+                isValid = false;
+                customMsg = 'Invalid email syntax (e.g., name@domain.com).';
+            }
+        } else if (el.id === 'clientPhone') {
+            if (val.replace(/\D/g, '').length < 10) {
+                isValid = false;
+                customMsg = 'Invalid syntax: Enter a complete 10-digit number.';
+            }
+        } else if (el.id === 'clientSpecs') {
+            if (val.length < 3) {
+                isValid = false;
+                customMsg = 'Invalid syntax: Please specify your computer model.';
+            }
+        } else if (el.id === 'clientMessage') {
+            if (val.length < 10) {
+                isValid = false;
+                customMsg = `Invalid syntax: Description is too short (${val.length}/10 chars).`;
+            }
+        }
+
+        if (!isValid) {
+            el.classList.remove('border-gray-800', 'focus:border-indigo-500');
+            el.classList.add('border-red-500', 'focus:border-red-500', 'bg-red-950/10');
+            msgSpan.textContent = customMsg;
+            container.classList.remove('hidden');
+        } else {
+            el.classList.remove('border-red-500', 'focus:border-red-500', 'bg-red-950/10');
+            el.classList.add('border-gray-800', 'focus:border-indigo-500');
+            container.classList.add('hidden');
+        }
+        return isValid;
+    }
+
+    function showStatus(text, type, elementId = 'formStatus') {
+        const statusEl = document.getElementById(elementId);
+        statusEl.textContent = text;
+        statusEl.classList.remove('hidden', 'bg-emerald-950/40', 'border-emerald-800', 'text-emerald-400', 'bg-red-950/40', 'border-red-800', 'text-red-400', 'bg-indigo-950/40', 'border-indigo-800', 'text-indigo-300');
+        if (type === 'success') {
+            statusEl.classList.add('bg-emerald-950/40', 'border-emerald-800', 'text-emerald-400');
+        } else if (type === 'error') {
+            statusEl.classList.add('bg-red-950/40', 'border-red-800', 'text-red-400');
+        } else {
+            statusEl.classList.add('bg-indigo-950/40', 'border-indigo-800', 'text-indigo-300');
+        }
+    }
+
+    document.getElementById('triageForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const form = e.target;
+        let formIsValid = true;
+        fields.forEach(id => {
+            const el = document.getElementById(id);
+            if (!validateField(el)) { formIsValid = false; }
+        });
+
+        if (!formIsValid) {
+            showStatus('⚠️ Please resolve the highlighted errors before submitting.', 'error', 'formStatus');
+            return;
+        }
+
+        const formData = new FormData(form);
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting Request...';
+        showStatus('⏳ Sending your repair request to ITechRU...', 'info', 'formStatus');
+
+        try {
+            const response = await fetch("https://api.web3forms.com/submit", { method: "POST", body: formData });
+            const json = await response.json();
+            if (response.ok && json.success) {
+                showStatus('✅ Repair request successfully submitted! We will contact you soon.', 'success', 'formStatus');
+                form.reset();
+                fields.forEach(id => {
+                    const el = document.getElementById(id);
+                    el.classList.remove('border-red-500', 'bg-red-950/10');
+                    el.classList.add('border-gray-800');
+                });
+            } else {
+                throw new Error(json.message || 'Submission failed');
+            }
+        } catch (error) {
+            showStatus('❌ Submission error. Please try again or contact via WhatsApp (862-436-7086).', 'error', 'formStatus');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = '💻 Submit Repair Request';
+        }
+    });
+
+    // Feedback Form Handler
+    document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const form = e.target;
+        const nameVal = document.getElementById('feedbackName').value.trim();
+        const commentVal = document.getElementById('feedbackComment').value.trim();
+        const errName = document.getElementById('error-feedbackName');
+        const errComment = document.getElementById('error-feedbackComment');
+
+        let valid = true;
+        if (!nameVal || nameVal.length < 2) {
+            errName.classList.remove('hidden');
+            valid = false;
+        } else {
+            errName.classList.add('hidden');
+        }
+
+        if (!commentVal || commentVal.length < 5) {
+            errComment.classList.remove('hidden');
+            valid = false;
+        } else {
+            errComment.classList.add('hidden');
+        }
+
+        if (!valid) {
+            showStatus('⚠️ Please fix the errors before submitting your review.', 'error', 'feedbackStatus');
+            return;
+        }
+
+        const formData = new FormData(form);
+        const feedbackBtn = document.getElementById('feedbackBtn');
+        feedbackBtn.disabled = true;
+        feedbackBtn.textContent = 'Sending Review...';
+        showStatus('⏳ Submitting your feedback...', 'info', 'feedbackStatus');
+
+        try {
+            const response = await fetch("https://api.web3forms.com/submit", { method: "POST", body: formData });
+            const json = await response.json();
+            if (response.ok && json.success) {
+                showStatus('✅ Thank you! Your review has been successfully submitted.', 'success', 'feedbackStatus');
+                form.reset();
+            } else {
+                throw new Error(json.message || 'Submission failed');
+            }
+        } catch (error) {
+            showStatus('❌ Error submitting feedback. Please try again later.', 'error', 'feedbackStatus');
+        } finally {
+            feedbackBtn.disabled = false;
+            feedbackBtn.textContent = 'Submit Review';
+        }
+    });
+    </script>
+</body>
+</html>
