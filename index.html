@@ -229,14 +229,31 @@
         </a>
     </div>
 
-    <!-- Strict Input Validation & Error Handler Script -->
+    <!-- Cross-Device Robust Input Validation & Sanitization Script -->
     <script>
     const nameInput = document.getElementById('clientName');
+
+    // 1. Block invalid keys on desktop keyboard events
     nameInput.addEventListener('keypress', function (e) {
-        const char = String.fromCharCode(e.which);
+        const char = String.fromCharCode(e.which || e.keyCode);
         if (!/^[a-zA-Z\s'-]+$/.test(char)) {
             e.preventDefault();
         }
+    });
+
+    // 2. Universal input sanitization for mobile (Android/iOS virtual keyboards, paste events, autofill)
+    nameInput.addEventListener('input', function (e) {
+        const cursorPosition = e.target.selectionStart;
+        const sanitizedVal = e.target.value.replace(/[^a-zA-Z\s'-]/g, '');
+        
+        if (e.target.value !== sanitizedVal) {
+            e.target.value = sanitizedVal;
+            // Restore cursor position smoothly if characters were stripped
+            try {
+                e.target.setSelectionRange(cursorPosition - 1, cursorPosition - 1);
+            } catch (err) {}
+        }
+        validateField(e.target);
     });
 
     const phoneInput = document.getElementById('clientPhone');
