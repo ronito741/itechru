@@ -82,8 +82,8 @@
                 </div>
             </div>
             <div class="flex items-center gap-3">
-                <a href="#reviews-section" class="hidden md:inline-block px-3 py-2 bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-semibold rounded-lg transition">
-                    Testimonials
+                <a href="#estimator-section" class="hidden md:inline-block px-3 py-2 bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-semibold rounded-lg transition">
+                    Job Cost Estimator
                 </a>
                 <a href="#request-section" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-lg transition shadow-md">
                     Book a Repair
@@ -136,6 +136,54 @@
                 <h3 class="font-bold text-lg mb-2">Virus & Malware Removal</h3>
                 <p class="text-sm text-gray-400">Clean out adware, pop-ups, and malware to get your PC running smoothly again.</p>
             </div>
+        </div>
+    </section>
+
+    <!-- Real-Life Independent Job Cost & Time Estimator Section -->
+    <section id="estimator-section" class="max-w-4xl mx-auto px-6 py-8">
+        <div class="bg-card/90 border border-gray-800 rounded-2xl p-6 sm:p-8 shadow-xl">
+            <div class="text-center sm:text-left mb-6">
+                <h3 class="text-xl font-bold mb-1">🛠️ Independent Job Cost & Time Estimator</h3>
+                <p class="text-xs text-gray-400">Calculate real-life independent technician labor fees, estimated part expenses, and realistic turnaround times for beginner-to-intermediate computer jobs.</p>
+            </div>
+            
+            <div class="grid sm:grid-cols-2 gap-4 mb-6">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Select Repair Job Type</label>
+                    <select id="calcJob" onchange="updateRealEstimator()" class="w-full bg-darker border border-gray-700 text-white text-sm p-3.5 rounded-xl focus:outline-none focus:border-indigo-500">
+                        <option value="ssd">🚀 SSD Upgrade & OS Migration (Parts + Labor)</option>
+                        <option value="screen">💻 Laptop LCD Screen Replacement</option>
+                        <option value="virus">🛡️ Virus Removal & System Optimization</option>
+                        <option value="battery">🔋 Laptop Battery Replacement</option>
+                        <option value="thermal">🧹 Thermal Paste Reapplication & Fan Cleaning</option>
+                        <option value="ram">⚡ RAM Memory Upgrade Installation</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Client Urgency Level</label>
+                    <select id="calcUrgency" onchange="updateRealEstimator()" class="w-full bg-darker border border-gray-700 text-white text-sm p-3.5 rounded-xl focus:outline-none focus:border-indigo-500">
+                        <option value="standard">Standard (24 - 48 Hours)</option>
+                        <option value="rush">Rush / Same-Day (+ $25 Priority Fee)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Real Breakdown Stats Card -->
+            <div class="grid sm:grid-cols-3 gap-4 bg-darker/70 border border-gray-800/80 p-4 rounded-xl text-center">
+                <div>
+                    <p class="text-[11px] text-gray-400 uppercase tracking-wider font-semibold">Estimated Parts Cost</p>
+                    <p id="resParts" class="text-base font-bold text-gray-200 mt-1">$35 - $50</p>
+                </div>
+                <div class="sm:border-x sm:border-gray-800 sm:px-2">
+                    <p class="text-[11px] text-gray-400 uppercase tracking-wider font-semibold">Technician Labor Fee</p>
+                    <p id="resLabor" class="text-base font-bold text-indigo-400 mt-1">$60</p>
+                </div>
+                <div>
+                    <p class="text-[11px] text-gray-400 uppercase tracking-wider font-semibold">Total Estimated Cost</p>
+                    <p id="resTotal" class="text-lg font-bold text-emerald-400 mt-1">$95 - $110</p>
+                </div>
+            </div>
+            <p class="text-[11px] text-gray-500 text-center mt-3">* Note: Part prices may vary based on exact laptop/desktop model. Free diagnostics provided before any final billing.</p>
         </div>
     </section>
 
@@ -332,6 +380,41 @@
             alert(label + " copied to clipboard!");
         });
     }
+
+    // Real-Life Independent Job Cost Estimator Function
+    function updateRealEstimator() {
+        const jobType = document.getElementById('calcJob').value;
+        const urgency = document.getElementById('calcUrgency').value;
+        const resParts = document.getElementById('resParts');
+        const resLabor = document.getElementById('resLabor');
+        const resTotal = document.getElementById('resTotal');
+
+        const data = {
+            'ssd': { partsLow: 35, partsHigh: 70, labor: 60 },
+            'screen': { partsLow: 50, partsHigh: 90, labor: 75 },
+            'virus': { partsLow: 0, partsHigh: 0, labor: 50 },
+            'battery': { partsLow: 25, partsHigh: 50, labor: 45 },
+            'thermal': { partsLow: 10, partsHigh: 15, labor: 45 },
+            'ram': { partsLow: 30, partsHigh: 60, labor: 40 }
+        };
+
+        let selectedJob = data[jobType] || data['ssd'];
+        let rushFee = (urgency === 'rush') ? 25 : 0;
+
+        let totalLow = selectedJob.partsLow + selectedJob.labor + rushFee;
+        let totalHigh = selectedJob.partsHigh + selectedJob.labor + rushFee;
+
+        if (selectedJob.partsHigh === 0) {
+            resParts.textContent = '$0 (No parts needed)';
+        } else {
+            resParts.textContent = `$${selectedJob.partsLow} - $${selectedJob.partsHigh}`;
+        }
+        resLabor.textContent = `$${selectedJob.labor + rushFee}` + (rushFee > 0 ? ' (incl. $25 rush)' : '');
+        resTotal.textContent = `$${totalLow} - $${totalHigh}`;
+    }
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', updateRealEstimator);
 
     const nameInput = document.getElementById('clientName');
     nameInput.addEventListener('keypress', function (e) {
