@@ -26,6 +26,24 @@
             }
         }
     </script>
+    <style>
+        /* Hide Google Translate top banner and default styling anomalies */
+        .goog-te-banner-frame { display: none !important; }
+        .goog-te-gadget { font-family: inherit !important; font-size: 0px !important; }
+        .goog-te-gadget span { display: none !important; }
+        .goog-te-combo {
+            background-color: #12141c !important;
+            color: #ffffff !important;
+            border: 1px solid #1f2937 !important;
+            padding: 6px 12px !important;
+            border-radius: 0.5rem !important;
+            font-size: 0.875rem !important;
+            outline: none !important;
+            cursor: pointer;
+        }
+        body { top: 0px !important; }
+        #google_translate_element { display: inline-block; }
+    </style>
 </head>
 <body class="bg-darker text-gray-100 font-sans antialiased selection:bg-blue-600 selection:text-white pb-20 sm:pb-0">
 
@@ -38,8 +56,11 @@
                 <span class="text-blue-400 font-mono">Mobile Repairs Available</span>
             </div>
             <div class="flex items-center gap-4">
-                <span class="text-gray-400">Hablamos Español</span>
-                <span class="text-gray-600">|</span>
+                <div class="flex items-center gap-2">
+                    <span class="text-gray-400 font-medium">🌐 Language:</span>
+                    <div id="google_translate_element"></div>
+                </div>
+                <span class="hidden sm:inline text-gray-600">|</span>
                 <div class="font-medium text-blue-400">
                     Direct Line / WhatsApp: <a href="tel:8624367086" class="text-white font-bold hover:underline">862-436-7086</a>
                 </div>
@@ -234,6 +255,19 @@
             💬 WhatsApp
         </a>
     </div>
+
+    <!-- Google Translate Script (Restricted to English & Spanish) -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,es',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     <!-- Cross-Device Robust Input Validation & Sanitization Script -->
     <script>
