@@ -37,8 +37,12 @@
                 <span class="hidden sm:inline text-gray-600">|</span>
                 <span class="text-blue-400 font-mono">Mobile Repairs Available</span>
             </div>
-            <div class="font-medium text-blue-400">
-                Direct Line / WhatsApp: <a href="tel:8624367086" class="text-white font-bold hover:underline">862-436-7086</a>
+            <div class="flex items-center gap-4">
+                <span class="text-gray-400">Hablamos Español</span>
+                <span class="text-gray-600">|</span>
+                <div class="font-medium text-blue-400">
+                    Direct Line / WhatsApp: <a href="tel:8624367086" class="text-white font-bold hover:underline">862-436-7086</a>
+                </div>
             </div>
         </div>
     </div>
@@ -55,9 +59,11 @@
                     <p class="text-xs text-gray-400">PC & Laptop Repair Services</p>
                 </div>
             </div>
-            <a href="#request-section" class="hidden sm:inline-block px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-lg transition shadow-md">
-                Book a Repair
-            </a>
+            <div class="flex items-center gap-3">
+                <a href="#request-section" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-lg transition shadow-md">
+                    Book a Repair
+                </a>
+            </div>
         </div>
     </header>
 
@@ -65,13 +71,13 @@
     <section class="max-w-6xl mx-auto px-6 py-16 text-center lg:text-left grid lg:grid-cols-2 gap-12 items-center">
         <div>
             <div class="inline-flex items-center gap-2 bg-blue-950/80 border border-blue-800 text-blue-300 px-3 py-1 rounded-full text-xs font-semibold mb-6">
-                <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span> Fast Turnaround for Personal Devices
+                <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span> Free Diagnostics • No Fix, No Fee
             </div>
             <h2 class="text-4xl sm:text-5xl font-extrabold tracking-tight mb-6 leading-tight">
                 Professional <span class="text-blue-500">Computer & Laptop Repair</span> in New Jersey
             </h2>
             <p class="text-gray-400 text-lg mb-8 leading-relaxed">
-                Got a sluggish laptop, a computer that won't boot, a cracked screen, or a failing hard drive? We provide fast, reliable hardware repairs and upgrades right here in Northern NJ.
+                Got a sluggish laptop, a computer that won't boot, a cracked screen, or a failing hard drive? We provide fast, reliable hardware repairs and upgrades for everyone right here in Northern NJ.
             </p>
             <div class="flex flex-wrap justify-center lg:justify-start gap-4">
                 <a href="#request-section" class="px-6 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-indigo-600/20 transition">
@@ -112,7 +118,7 @@
     <section class="max-w-6xl mx-auto px-6 py-12 border-t border-gray-900">
         <div class="text-center max-w-2xl mx-auto mb-10">
             <h3 class="text-2xl font-bold mb-3">How Our Repair Process Works</h3>
-            <p class="text-sm text-gray-400">Getting your computer fixed with ITechRU is quick and hassle-free.</p>
+            <p class="text-sm text-gray-400">Getting your computer fixed with ITechRU is quick, transparent, and hassle-free.</p>
         </div>
         <div class="grid md:grid-cols-3 gap-6">
             <div class="bg-card/50 border border-gray-800 p-6 rounded-xl text-center">
@@ -123,12 +129,12 @@
             <div class="bg-card/50 border border-gray-800 p-6 rounded-xl text-center">
                 <div class="w-10 h-10 bg-indigo-600/20 text-indigo-400 font-bold rounded-full flex items-center justify-center mx-auto mb-4 border border-indigo-500/30">2</div>
                 <h4 class="font-bold mb-2">Diagnostic & Quote</h4>
-                <p class="text-xs text-gray-400">We inspect your device, diagnose the core issue, and give you an upfront, transparent quote.</p>
+                <p class="text-xs text-gray-400">We inspect your device for free, diagnose the core issue, and give you an upfront quote.</p>
             </div>
             <div class="bg-card/50 border border-gray-800 p-6 rounded-xl text-center">
                 <div class="w-10 h-10 bg-indigo-600/20 text-indigo-400 font-bold rounded-full flex items-center justify-center mx-auto mb-4 border border-indigo-500/30">3</div>
-                <h4 class="font-bold mb-2">Fast Pickup / Repair</h4>
-                <p class="text-xs text-gray-400">We perform the repair with professional care so you can get back to work or gaming fast.</p>
+                <h4 class="font-bold mb-2">Fast Repair & Pickup</h4>
+                <p class="text-xs text-gray-400">We complete the repair with professional care so you can get back to work or daily tasks.</p>
             </div>
         </div>
     </section>
@@ -138,7 +144,7 @@
         <div class="bg-card border border-gray-800 rounded-2xl p-8 sm:p-10 shadow-2xl">
             <div class="text-center mb-8">
                 <h3 class="text-2xl font-bold mb-2">Request Personal Computer Repair</h3>
-                <p class="text-sm text-gray-400">Tell us about your computer device issue below to schedule your repair.</p>
+                <p class="text-sm text-gray-400">Tell us about your device issue below. We're here to help everyone!</p>
             </div>
 
             <form id="triageForm" class="space-y-5" novalidate>
@@ -248,7 +254,6 @@
         
         if (e.target.value !== sanitizedVal) {
             e.target.value = sanitizedVal;
-            // Restore cursor position smoothly if characters were stripped
             try {
                 e.target.setSelectionRange(cursorPosition - 1, cursorPosition - 1);
             } catch (err) {}
